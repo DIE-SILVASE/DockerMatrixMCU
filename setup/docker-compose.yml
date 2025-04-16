@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  interfaz-grafica:
+    image: iivvjj/interfaz-grafica:v1
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_APP_API_URL=http://localhost:8080
+      - VITE_APP_WS_URL=ws://localhost:8081
+    networks:
+      - lab_virtual_net
+
+  rust-server:
+    image: iivvjj/rust-server:v1
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+      - "3000:3000"
+    environment:
+      - QEMU_URL=0.0.0.0:3000
+      - WS_URL=0.0.0.0:8081
+    networks:
+      - lab_virtual_net
+
+networks:
+  lab_virtual_net:
+    name: lab_virtual_net
+    driver: bridge
