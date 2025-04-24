@@ -6,7 +6,6 @@
     "vscode": {
       "extensions": [
         "ms-vscode.cpptools",
-        "ms-vscode.cmake-tools",
         "ms-azuretools.vscode-docker",
         "twxs.cmake",
         "rioj7.command-variable",
@@ -16,7 +15,10 @@
         "marus25.rtos-views",
         "marus25.peripheral-viewer",
         "marus25.memory-viewer",
-        "ms-vscode.cpptools-extension-pack"
+        "cschlosser.doxdocgen",
+        "vscode-icons-team.vscode-icons",
+        "ms-vscode.hexeditor",
+        "gruntfuggly.todo-tree"
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "bash"
@@ -27,7 +29,6 @@
     "PATH": "${containerEnv:PATH}:/home/dev/qemu_new/build"
   },
   "mounts": [
-    "source=${localWorkspaceFolder}/projects1,target=/home/dev/MatrixMCU/projects,type=bind,consistency=cached",
-    "source=${localWorkspaceFolder}/setup,target=/home/dev/setup,type=bind"
+    "source=${localWorkspaceFolder}/projects1,target=/home/dev/MatrixMCU/projects,type=bind,consistency=cached"
   ]
 }

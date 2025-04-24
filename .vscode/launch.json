@@ -1,0 +1,20 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+			{
+					"name": "Run and Debug MICROLAB",
+					"type": "node",
+					"request": "launch",
+					"preLaunchTask": "Iniciar laboratorio",  // Esta tarea se ejecutará antes de iniciar la depuración
+					"postDebugTask": "Parar laboratorio",  // Esta tarea se ejecutará después de terminar la depuración
+			},
+
+			{
+				"name": "Parar MatrixMCU",
+				"type": "node",
+				"request": "launch",
+				"preLaunchTask": "Iniciar laboratorio",  // Esta tarea se ejecutará antes de iniciar la depuración
+				"postDebugTask": "Parar laboratorio",  // Esta tarea se ejecutará después de terminar la depuración
+		}
+	]
+}

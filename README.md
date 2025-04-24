@@ -21,6 +21,7 @@ Asegúrate de tener instalado en tu máquina:
 - ✅ [Docker](https://docs.docker.com/get-docker/)
 - ✅ [Visual Studio Code](https://code.visualstudio.com/)
 - ✅ La extensión **Dev Containers** en VSCode
+- ✅ La extensión **Remote Development** en VSCode
 
 ---
 

@@ -1,0 +1,72 @@
+{
+	"version": "2.0.0",
+	"inputs": [
+		{
+		  "id": "launchTargetID",  // Definir el input para seleccionar la subcarpeta
+		  "type": "command",
+		  "command": "extension.commandvariable.pickStringRemember",  // Comando para mostrar las opciones
+		  "args": {
+			"description": "Selecciona la subcarpeta:",
+			"default": "microlab_ejemplo",  // Valor por defecto
+			"options": [
+			  "microlab_ejemplo"  // Las subcarpetas que el usuario puede elegir
+			]
+		  }
+		}
+	  ],
+	"tasks": [
+	  {
+		"label": "Iniciar laboratorio",
+		"type": "shell",
+		"command": "cd ${workspaceFolder}/setup && docker-compose up -d",  // Inicia el entorno del laboratorio
+		"group": "build",
+		"problemMatcher": [],
+		"detail": "Inicia el entorno de MICROLAB."
+	  },
+	  {
+		"label": "Conectar contenedor a la red",
+		"type": "shell",
+		"command": "docker ps --filter \"name=vsc\" --format \"{{.Names}}\" | head -n 1 | xargs -I {} docker network connect lab_virtual_net {}",
+		"group": "none",
+		"problemMatcher": [],
+		"detail": "Conecta el contenedor de VSCode a la red 'lab_virtual_net'."
+	  },
+	  {
+		"label": "Abrir página del laboratorio",
+		"type": "shell",
+		"command": "start http://localhost:5173",  // Abre la página en el navegador
+		"group": "none",
+		"problemMatcher": [],
+		"dependsOn": [
+		  "Iniciar laboratorio",
+		  "Conectar contenedor a la red"
+		],
+		"detail": "Abre la página web del laboratorio en el navegador."
+	  },
+	  {
+		"label": "Parar laboratorio",
+		"type": "shell",
+		"command": "cd ${workspaceFolder}/setup && docker-compose down",  // Detiene el entorno del laboratorio
+		"group": "build",
+		"problemMatcher": [],
+		"detail": "Detiene el entorno de MICROLAB."
+	  },
+	  {
+		"label": "Parar contenedor Docker",
+		"type": "shell",
+		"command": "docker ps --filter \"name=vsc\" --format \"{{.Names}}\" | xargs -r docker stop",  // Detiene solo el contenedor que tiene 'vsc' en su nombre
+		"group": "none",
+		"problemMatcher": [],
+		"detail": "Detiene el contenedor Docker del devcontainer."
+	  },
+	  {
+		"label": "Abrir DevContainer en subcarpeta",
+		"type": "shell",
+		"command": "code --remote devcontainer+${workspaceFolder}/projects1/${input:launchTargetID}#workspace=${workspaceFolder}/projects/${input:launchTargetID}",  // Usar el input para pasar el valor dinámico
+		"group": "none",
+		"problemMatcher": [],
+		"detail": "Abre el devcontainer en una subcarpeta específica."
+	  }
+	]
+  }
+  
