@@ -8,7 +8,7 @@ ARG USER_GID=1000
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Instala herramientas básicas del sistema
+# Instalar herramientas básicas del sistema
 RUN apt-get update && apt-get install -y --no-install-recommends \
     sudo git curl wget xz-utils ca-certificates lsb-release \
     build-essential cmake make gcc g++ \
@@ -19,16 +19,25 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     openocd \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Crear usuario dev con UID y GID personalizados
-RUN groupadd --gid ${USER_GID} ${USERNAME} || true && \
-    useradd --uid ${USER_UID} --gid ${USER_GID} -m ${USERNAME} && \
-    echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+# Crear usuario dev solo si es posible
+RUN if ! getent passwd ${USER_UID}; then \
+      groupadd --gid ${USER_GID} ${USERNAME} && \
+      useradd --uid ${USER_UID} --gid ${USER_GID} -m ${USERNAME}; \
+      echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers; \
+      echo "${USERNAME}" > /username_detected.txt; \
+      echo "✅ Usuario '${USERNAME}' creado correctamente."; \
+    else \
+      existing_user=$(getent passwd ${USER_UID} | cut -d: -f1); \
+      echo "${existing_user} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers; \
+      echo "${existing_user}" > /username_detected.txt; \
+      echo "⚠ UID 1000 ocupado. Usando usuario existente: '${existing_user}'."; \
+    fi
 
 # Añadir el PATH global del toolchain ARM
 ENV MATRIXMCU_TOOLCHAIN=/opt/MatrixMCU/arm-gnu-toolchain-14.2.rel1-x86_64-arm-none-eabi
 ENV PATH=/opt/MatrixMCU/bin:$PATH
 
-# Descargar e instalar el toolchain ARM (como root)
+# Descargar e instalar el toolchain ARM
 RUN mkdir -p /opt/MatrixMCU/bin && \
     wget https://developer.arm.com/-/media/Files/downloads/gnu/14.2.rel1/binrel/arm-gnu-toolchain-14.2.rel1-x86_64-arm-none-eabi.tar.xz -O /tmp/arm-toolchain.tar.xz && \
     tar -xf /tmp/arm-toolchain.tar.xz -C /opt/MatrixMCU && \
@@ -36,28 +45,19 @@ RUN mkdir -p /opt/MatrixMCU/bin && \
     ln -sf $(which gdb-multiarch) /opt/MatrixMCU/bin/arm-none-eabi-gdb && \
     rm /tmp/arm-toolchain.tar.xz
 
-# Cambiar a usuario no root
-USER ${USERNAME}
-WORKDIR /home/${USERNAME}
+# Clonar QEMU y MatrixMCU bajo el usuario correcto
+RUN username=$(cat /username_detected.txt 2>/dev/null || echo "dev") && \
+    git clone -b dev-stm32-gpio https://github.com/DIE-SILVASE/qemu_new.git /home/${username}/qemu_new && \
+    cd /home/${username}/qemu_new && mkdir build && cd build && \
+    ../configure --target-list=arm-softmmu && make -j$(nproc) && \
+    git clone --recursive https://github.com/sdg2DieUpm/MatrixMCU.git /home/${username}/MatrixMCU && \
+    chown -R ${username}:${username} /home/${username}
 
-# Clona QEMU y lo compila
-RUN git clone -b dev-stm32-gpio https://github.com/DIE-SILVASE/qemu_new.git && \
-    cd qemu_new && \
-    mkdir build && cd build && \
-    ../configure --target-list=arm-softmmu && \
-    make -j$(nproc)
+# Trabajar en MatrixMCU
+WORKDIR /home/dev/MatrixMCU
 
-# Clona el repositorio de MatrixMCU
-RUN git clone --recursive https://github.com/sdg2DieUpm/MatrixMCU.git
-
-# Carpeta de trabajo por defecto
-WORKDIR /home/${USERNAME}/MatrixMCU
-
-
-#Expone el puerto para conexión qemu-qtest
+# Exponer puerto qemu
 EXPOSE 3000
 
-
-# Shell interactiva
+# Shell
 CMD ["bash"]
- 

@@ -44,3 +44,81 @@ Cuando VSCode te lo pregunte, selecciona:
 Reopen in Container
 
 Espera unos minutos mientras se crea el entorno... y 🎉 ¡ya estás dentro!
+
+## 🛠️ 5. Notas avanzadas de compatibilidad (UID, permisos y DevContainers)
+
+---
+
+## 🧠 ¿Por qué importa el UID?
+
+Cuando montamos carpetas externas (como `projects1`) en el contenedor:
+
+- Si el usuario dentro del contenedor no tiene el **mismo UID** que el propietario real de los archivos,
+- Podríamos tener **problemas de permisos**: no poder leer, escribir o compilar archivos.
+
+---
+
+## 🚀 ¿Cómo lo solucionamos?
+
+Durante la construcción de la imagen Docker:
+
+- Intentamos crear un usuario llamado `dev` con **UID 1000** y **GID 1000**.
+- Si el UID 1000 **ya está ocupado** (por ejemplo, por un usuario `ubuntu` en imágenes de Docker Desktop),
+  - Detectamos automáticamente el nombre del usuario que ocupa el UID 1000,
+  - Guardamos su nombre en un archivo `/username_detected.txt` dentro del contenedor,
+  - Y usamos ese usuario para configurar todo el entorno de MatrixMCU (clonar repositorios, permisos, paths, etc).
+
+✅ Todo funciona de forma transparente para ti como desarrollador.
+
+Además, durante el build verás mensajes claros como:
+
+```
+✅ Usuario 'dev' creado correctamente.
+```
+o
+```
+⚠ UID 1000 ocupado. Usando usuario existente: 'ubuntu'.
+```
+
+---
+
+## 🌍 Diferencias entre sistemas
+
+| Sistema | ¿UID 1000 libre? | Resultado |
+|:--------|:----------------:|:---------:|
+| Linux real (Ubuntu, Debian, etc.) | ✅ Normalmente libre | Se crea `dev:1000` sin problemas |
+| Docker Desktop (Windows/macOS) | ❌ Puede estar ocupado (usuario `ubuntu`) | Se usa el usuario existente automáticamente |
+
+---
+
+## 🛡️ ¿Qué implica para ti?
+
+- No necesitas preocuparte por permisos o configuraciones manuales.
+- Siempre trabajarás como un usuario no root adecuado.
+- Las carpetas externas (`projects1`, etc.) estarán correctamente accesibles.
+- MatrixMCU funciona de manera consistente en Linux, Windows y macOS.
+
+---
+
+## 📢 Esquema visual rápido
+
+```plaintext
+┌─────────────────────────────┐           ┌──────────────────────────────────────┐
+│         Linux real          │           │          Docker Desktop (Windows/Mac) │
+├─────────────────────────────┤           ├──────────────────────────────────────┤
+│ UID 1000 libre               │           │ UID 1000 ocupado (usuario 'ubuntu')   │
+│ ➡ Se crea dev:1000           │           │ ➡ Se detecta usuario existente       │
+│ ➡ Montaje correcto           │           │ ➡ Montaje correcto                   │
+│ ➡ Sin conflictos             │           │ ➡ Sin conflictos                     │
+└─────────────────────────────┘           └──────────────────────────────────────┘
+```
+
+---
+
+## 📦 Resultado
+
+Gracias a esta configuración:
+
+- Tu entorno MatrixMCU es 100% funcional en **Linux, Windows, WSL y macOS**.
+- No hay conflictos de usuarios o permisos.
+- Puedes clonar, compilar, y trabajar sin errores desde el primer minuto.

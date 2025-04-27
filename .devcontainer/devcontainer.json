@@ -1,7 +1,8 @@
 {
   "name": "MatrixMCU DevContainer",
   "image": "matrixmcu-env",
-  "workspaceFolder": "/home/dev/MatrixMCU",
+  "workspaceFolder": "/home/${localEnv:USERNAME}/MatrixMCU",
+  "remoteUser": "${localEnv:USERNAME}",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -26,9 +27,9 @@
     }
   },
   "remoteEnv": {
-    "PATH": "${containerEnv:PATH}:/home/dev/qemu_new/build"
+    "PATH": "${containerEnv:PATH}:/home/${localEnv:USERNAME}/qemu_new/build"
   },
   "mounts": [
-    "source=${localWorkspaceFolder}/projects1,target=/home/dev/MatrixMCU/projects,type=bind,consistency=cached"
+    "source=${localWorkspaceFolder}/projects1,target=/home/${localEnv:USERNAME}/MatrixMCU/projects,type=bind,consistency=cached"
   ]
 }
