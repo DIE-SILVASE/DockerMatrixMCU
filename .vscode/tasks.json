@@ -54,7 +54,7 @@
 	  {
 		"label": "Parar contenedor Docker",
 		"type": "shell",
-		"command": "docker ps --filter \"name=vsc\" --format \"{{.Names}}\" | xargs -r docker stop",  // Detiene solo el contenedor que tiene 'vsc' en su nombre
+		"command": "docker ps --filter \"name=vsc\" --format \"{{.Names}}\" | xargs -r docker stop && echo \"✅ Contenedores DevContainer detenidos.\"",  // Detiene solo el contenedor que tiene 'vsc' en su nombre
 		"group": "none",
 		"problemMatcher": [],
 		"detail": "Detiene el contenedor Docker del devcontainer."
@@ -66,6 +66,68 @@
 		"group": "none",
 		"problemMatcher": [],
 		"detail": "Abre el devcontainer en una subcarpeta específica."
+	  },
+	  {
+		"label": "Abrir DevContainer MatrixMCU",
+		"type": "shell",
+		"command": "code",
+		"args": [
+		  "--folder-uri",
+		  "vscode-remote://dev-container+${workspaceFolder}/.devcontainer/devcontainer.json"
+		],
+		"problemMatcher": [],
+		"group": {
+		  "kind": "build",
+		  "isDefault": false
+		},
+		"presentation": {
+		  "echo": true,
+		  "reveal": "always",
+		  "focus": false,
+		  "panel": "shared"
+		}
+	  },
+	  {
+		"label": "Build MatrixMCU Docker Image (Windows-PowerShell)",
+		"type": "shell",
+		"command": "powershell.exe",
+		"args": [
+		  "-ExecutionPolicy", "Bypass",
+		  "-File", "${workspaceFolder}\\setup\\build_env.ps1"
+		],
+		"problemMatcher": [],
+		"group": {
+		  "kind": "build",
+		  "isDefault": false
+		},
+		"options": {
+		  "cwd": "${workspaceFolder}\\setup"
+		},
+		"presentation": {
+		  "echo": true,
+		  "reveal": "always",
+		  "focus": false,
+		  "panel": "shared"
+		}
+	  },
+	  {
+		"label": "Build MatrixMCU Docker Image (Linux/macOS)",
+		"type": "shell",
+		"command": "bash -c ./build_env.sh",
+		"problemMatcher": [],
+		"group": {
+		  "kind": "build",
+		  "isDefault": false
+		},
+		"options": {
+		  "cwd": "${workspaceFolder}/preparacion_entorno"
+		},
+		"presentation": {
+		  "echo": true,
+		  "reveal": "always",
+		  "focus": false,
+		  "panel": "shared"
+		}
 	  }
 	]
   }
