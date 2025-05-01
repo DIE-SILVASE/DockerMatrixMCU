@@ -1,0 +1,19 @@
+# Archivos de shell y scripts siempre con saltos de línea Unix
+*.sh text eol=lf
+
+# Archivos de código fuente (Rust, JavaScript, etc.)
+*.rs  text eol=lf
+*.js  text eol=lf
+*.ts  text eol=lf
+*.jsx text eol=lf
+*.tsx text eol=lf
+*.json text eol=lf
+*.toml text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md  text eol=lf
+
+# No tocar binarios ni imágenes
+*.png binary
+*.jpg binary
+*.ico binary

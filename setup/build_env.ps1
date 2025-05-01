@@ -19,7 +19,7 @@ function Check-DockerRunning {
     try {
         docker info | Out-Null
     } catch {
-        Write-Host "ERROR: Docker daemon no está corriendo. Asegúrate de que Docker esté iniciado." -ForegroundColor Red
+        Write-Host "ERROR: Docker daemon no esta corriendo. Asegurate de que Docker esté iniciado." -ForegroundColor Red
         exit 1
     }
 }
@@ -41,7 +41,7 @@ function Create-Network {
         docker network inspect lab_virtual_net | Out-Null
         Write-Host "Red 'lab_virtual_net' ya existe."
     } catch {
-        Write-Host "Red 'lab_virtual_net' no encontrada. Creándola..."
+        Write-Host "Red 'lab_virtual_net' no encontrada. Creandola..."
         docker network create lab_virtual_net
     }
 }
@@ -66,15 +66,15 @@ function Build-Image {
 
 
 function Get-DockerComposeImages {
-    Write-Host " Descargando imágenes definidas en docker-compose.yml..."
+    Write-Host " Descargando imagenes definidas en docker-compose.yml..."
     docker-compose pull
 
     if ($LASTEXITCODE -ne 0) {
-        Write-Host " Error al descargar las imágenes de docker-compose." -ForegroundColor Red
+        Write-Host " Error al descargar las imagenes de docker-compose." -ForegroundColor Red
         exit 1
     }
 
-    Write-Host "Imágenes descargadas con éxito." -ForegroundColor Green
+    Write-Host "Imagenes descargadas con exito." -ForegroundColor Green
 }
 
 # --- Ejecución principal ---

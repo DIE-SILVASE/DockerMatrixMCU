@@ -3,7 +3,7 @@ version: '3'
 services:
   interfaz-grafica:
     container_name: interfaz-grafica
-    image: iivvjj/interfaz-grafica:v1
+    image: iivvjj/interfaz-grafica:v2
     ports:
       - "5173:5173"
     environment:
@@ -14,7 +14,7 @@ services:
 
   rust-server:
     container_name: rust-server
-    image: iivvjj/rust-server:v1
+    image: iivvjj/rust-server:v2
     ports:
       - "8080:8080"
       - "8081:8081"
