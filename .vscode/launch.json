@@ -2,11 +2,18 @@
 // 	"version": "0.2.0",
 // 	"configurations": [
 // 			{
-// 					"name": "Run MICROLAB",
+// 					"name": "Run MICROLAB (Windows)",
 // 					"type": "node",
 // 					"request": "launch",
-// 					"preLaunchTask": "Iniciar laboratorio",  // Esta tarea se ejecutará antes de iniciar la depuración
-// 					"postDebugTask": "Parar laboratorio",  // Esta tarea se ejecutará después de terminar la depuración
+// 					"preLaunchTask": "Iniciar MICROLAB (Windows)",  
+// 					"postDebugTask": "Parar MICROLAB (Windows)"  
 // 			},
+//             {
+//                 "name": "Run MICROLAB (Linux/Mac)",
+//                 "type": "node",
+//                 "request": "launch",
+// 				"preLaunchTask": "Iniciar MICROLAB (Linux/Mac)",  
+// 				"postDebugTask": "Parar MICROLAB (Linux/Mac)"  
+// 		}
 // 	]
 // }
