@@ -196,16 +196,44 @@ En lugar de rutas relativas, se usa `${env:MATRIXMCU}`:
 
 ## 🛡️ Compatibilidad con UID y sistemas
 
-| Sistema            | UID 1000 libre | Resultado                          |
-|--------------------|----------------|------------------------------------|
-| Linux (real)       | ✅ Sí           | Se crea `dev:1000` sin conflictos  |
-| Docker Desktop     | ❌ No           | Usa `ubuntu` automáticamente       |
+### 🔍 ¿Por qué importa el UID?
 
-Esto asegura permisos correctos en los archivos del proyecto.
+Cuando usamos contenedores Docker, los archivos del proyecto se montan desde el sistema anfitrión (tu máquina) al contenedor.  
+Para que el contenedor pueda **leer y escribir correctamente en esos archivos**, el usuario dentro del contenedor debe tener **el mismo UID (User ID)** que el del sistema anfitrión.
+
+Esto es importante porque, si el UID no coincide, el contenedor podría no tener permisos para editar, compilar o guardar archivos en las carpetas compartidas.
+
+#### 🧪 Ejemplo:
+
+- En un sistema Linux real, el primer usuario suele tener UID `1000`, pero si ese UID ya está ocupado, el siguiente será `1001`, `1002`, etc.
+- El entorno detecta automáticamente tu UID con `id -u` y crea un usuario con ese mismo UID dentro del contenedor (`dev:UID`).
+- Así, los archivos montados siguen siendo accesibles y editables desde el contenedor sin problemas de permisos.
 
 ---
 
-## 🧠 Resumen visual
+### ⚠️ ¿Y por qué no podemos hacer esto en Docker Desktop?
+
+En **Docker Desktop** (Windows o macOS), los contenedores no se ejecutan directamente sobre tu sistema, sino dentro de una **máquina virtual Linux oculta**.
+
+Esto implica que:
+
+- El contenedor **no puede saber quién eres tú realmente** como usuario de Windows o macOS.
+- No existe un UID/GID equivalente a tu cuenta local que se pueda detectar desde el contenedor.
+- Aunque el contenedor cree un usuario con UID `1000`, **eso no significa nada real para el sistema host**.
+- Todos los archivos montados desde Windows/macOS aparecerán como propiedad de `root` o de un UID simulado, y no se puede cambiar.
+
+---
+
+### ✅ Solución implementada por MatrixMCU
+
+- En **Linux real**: se detecta el UID real (`id -u`) y se crea un usuario con ese UID en la imagen (`dev`), asegurando permisos correctos.
+- En **Docker Desktop**: como no se puede detectar el UID real, el entorno usa un **usuario genérico (`ubuntu`)** con permisos amplios y preconfigurados.
+- Se confía en que Docker Desktop monte los volúmenes con permisos que permitan escribir (lo cual suele funcionar correctamente si no se fuerzan UIDs).
+
+Además:
+
+- La ruta real `/home/dev/MatrixMCU` o `/home/ubuntu/MatrixMCU` se detecta automáticamente.
+- La variable de entorno `$MATRIXMCU` se exporta de forma correcta en cada caso, sin intervención manual.
 
 ```plaintext
 +----------------------------+           +------------------------------+
@@ -218,7 +246,6 @@ Esto asegura permisos correctos en los archivos del proyecto.
 +----------------------------+           +------------------------------+
 ```
 
----
 
 ## ✅ Resultado final
 
