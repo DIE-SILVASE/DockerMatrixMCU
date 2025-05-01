@@ -1,8 +1,12 @@
 {
   "name": "MatrixMCU DevContainer",
   "image": "matrixmcu-env",
-  "workspaceFolder": "/home/${localEnv:USERNAME}/MatrixMCU",
-  "remoteUser": "${localEnv:USERNAME}",
+  //para ponerme un nombre
+  "runArgs": [
+    "--name", "matrixmcu-dev"
+  ],
+  "remoteUser": "root",
+  "workspaceFolder": "/workspace",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -22,14 +26,17 @@
         "gruntfuggly.todo-tree"
       ],
       "settings": {
-        "terminal.integrated.defaultProfile.linux": "bash"
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.shellArgs.linux": ["--login"]
       }
     }
   },
-  "remoteEnv": {
-    "PATH": "${containerEnv:PATH}:/home/${localEnv:USERNAME}/qemu_new/build"
-  },
   "mounts": [
-    "source=${localWorkspaceFolder}/projects1,target=/home/${localEnv:USERNAME}/MatrixMCU/projects,type=bind,consistency=cached"
-  ]
+    "source=${localWorkspaceFolder}/projects1,target=/workspace/projects,type=bind,consistency=cached"
+  ],
+  "remoteEnv": {
+    "PATH": "${containerEnv:PATH}:/workspace/qemu_new/build"
+  },
+  "postCreateCommand":   "bash /workspace/projects/post-create.sh",
+  "postStartCommand":  "bash -c 'echo export MATRIXMCU=$(cat /tmp/matrixmcu_path) >> ~/.bashrc'"
 }

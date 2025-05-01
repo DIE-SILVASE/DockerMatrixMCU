@@ -1,28 +1,34 @@
 #!/bin/bash
+set -euo pipefail
 
-# Nombre del contenedor VSCode (Devcontainer)
-VSC_CONTAINER=$(docker ps --filter "name=vsc" --format "{{.Names}}" | head -n 1)
-NETWORK=lab_virtual_net
+NETWORK_NAME="lab_virtual_net"
+VSC_CONTAINER="matrixmcu-dev"
 
-case "$1" in
-  start)
-    echo "🔧 Lanzando entorno de laboratorio virtual..."
-    docker-compose up -d
+echo "🔧 Iniciando entorno MICROLAB..."
+if ! docker-compose up -d; then
+    echo "❌ Error: Fallo al iniciar docker-compose."
+    exit 1
+fi
 
-    echo "🔗 Conectando contenedor $VSC_CONTAINER a la red '$NETWORK'..."
-    docker network connect $NETWORK $VSC_CONTAINER 2>/dev/null || echo "Ya estaba conectado."
+echo "🔌 Verificando red '$NETWORK_NAME'..."
+if ! docker network inspect "$NETWORK_NAME" >/dev/null 2>&1; then
+    echo "📡 Red no encontrada. Creando '$NETWORK_NAME'..."
+    if ! docker network create "$NETWORK_NAME"; then
+        echo "❌ Error: No se pudo crear la red '$NETWORK_NAME'."
+        exit 1
+    fi
+fi
 
-    echo "✅ Laboratorio levantado."
-    echo "🌐 Accede a la interfaz gráfica en: http://localhost:5173"
-    ;;
-  
-  stop)
-    echo "🧹 Cerrando entorno de laboratorio virtual..."
-    docker-compose down
-    echo "✅ Laboratorio detenido (MatrixMCU sigue activo)."
-    ;;
-  
-  *)
-    echo "Uso: ./lab.sh [start|stop]"
-    ;;
-esac
+echo "🔗 Conectando contenedor $VSC_CONTAINER a la red '$NETWORK_NAME'..."
+if ! docker network connect "$NETWORK_NAME" "$VSC_CONTAINER" 2>/dev/null; then
+    echo "ℹ️  Ya estaba conectado o hubo un problema (puede que no exista el contenedor)."
+fi
+
+echo "🌐 Abriendo interfaz gráfica en http://localhost:5173"
+if command -v xdg-open >/dev/null; then
+    xdg-open http://localhost:5173 >/dev/null 2>&1 
+elif command -v open >/dev/null; then
+    open http://localhost:5173 >/dev/null 2>&1 || echo "ℹ️  No se pudo abrir el navegador automáticamente."
+else
+    echo "ℹ️  Abre manualmente: http://localhost:5173"
+fi

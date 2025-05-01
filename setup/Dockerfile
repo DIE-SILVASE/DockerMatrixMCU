@@ -47,7 +47,7 @@ RUN mkdir -p /opt/MatrixMCU/bin && \
 
 # Clonar QEMU y MatrixMCU bajo el usuario correcto
 RUN username=$(cat /username_detected.txt 2>/dev/null || echo "dev") && \
-    git clone -b dev-stm32-gpio https://github.com/DIE-SILVASE/qemu_new.git /home/${username}/qemu_new && \
+    git clone --depth=1 -b dev-stm32-gpio https://github.com/DIE-SILVASE/qemu_new.git /home/${username}/qemu_new && \
     cd /home/${username}/qemu_new && mkdir build && cd build && \
     ../configure --target-list=arm-softmmu && make -j$(nproc) && \
     git clone --recursive https://github.com/sdg2DieUpm/MatrixMCU.git /home/${username}/MatrixMCU && \

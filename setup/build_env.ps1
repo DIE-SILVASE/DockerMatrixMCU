@@ -36,6 +36,16 @@ function Detect-OSAndUID {
     Write-Host "UID=$USER_UID, GID=$USER_GID"
 }
 
+function Create-Network {
+    try {
+        docker network inspect lab_virtual_net | Out-Null
+        Write-Host "Red 'lab_virtual_net' ya existe."
+    } catch {
+        Write-Host "Red 'lab_virtual_net' no encontrada. Creándola..."
+        docker network create lab_virtual_net
+    }
+}
+
 function Build-Image {
     Write-Host "Construyendo imagen Docker '$IMAGE_NAME'..."
     docker build `
@@ -51,7 +61,20 @@ function Build-Image {
         exit 1
     }
 
-    Write-Host "✅ Imagen '$IMAGE_NAME' creada con éxito." -ForegroundColor Green
+    Write-Host " Imagen '$IMAGE_NAME' creada con exito." -ForegroundColor Green
+}
+
+
+function Pull-DockerComposeImages {
+    Write-Host "📦 Descargando imágenes definidas en docker-compose.yml..."
+    docker-compose pull
+
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host " Error al descargar las imágenes de docker-compose." -ForegroundColor Red
+        exit 1
+    }
+
+    Write-Host "Imágenes descargadas con éxito." -ForegroundColor Green
 }
 
 # --- Ejecución principal ---
@@ -60,7 +83,9 @@ Write-Host "Iniciando construccion de entorno MatrixMCU..."
 Check-DockerInstalled
 Check-DockerRunning
 Detect-OSAndUID
+Create-Network
 Build-Image
+Pull-DockerComposeImages
 
 Write-Host "Imagen '$IMAGE_NAME' creada con éxito." -ForegroundColor Green
 Write-Host "Ahora abre la carpeta 'alumno/' en VSCode y selecciona 'Reopen in Container'." 

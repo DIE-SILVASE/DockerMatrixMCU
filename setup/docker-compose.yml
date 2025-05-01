@@ -2,6 +2,7 @@ version: '3'
 
 services:
   interfaz-grafica:
+    container_name: interfaz-grafica
     image: iivvjj/interfaz-grafica:v1
     ports:
       - "5173:5173"
@@ -12,6 +13,7 @@ services:
       - lab_virtual_net
 
   rust-server:
+    container_name: rust-server
     image: iivvjj/rust-server:v1
     ports:
       - "8080:8080"
@@ -25,5 +27,6 @@ services:
 
 networks:
   lab_virtual_net:
+    external: true
     name: lab_virtual_net
     driver: bridge

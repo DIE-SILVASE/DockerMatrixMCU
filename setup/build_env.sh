@@ -2,11 +2,9 @@
 
 # Script profesional para construir la imagen Docker personalizada de MatrixMCU
 
-
-# --- Configuración ---
+# --- Configuración --- 
 IMAGE_NAME="matrixmcu-env"
-DOCKERFILE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"  # Carpeta 'alumno'
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"         # Carpeta 'preparacion_entorno'
+SETUP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" #Carpeta 'setup'
 
 # --- Funciones ---
 function check_docker_installed() {
@@ -20,6 +18,15 @@ function check_docker_running() {
     if ! sudo docker info &> /dev/null; then
         echo "❌ Docker daemon no está corriendo. Asegúrate de que Docker esté iniciado."
         exit 1
+    fi
+}
+
+function create_network() {
+    if ! docker network inspect lab_virtual_net >/dev/null 2>&1; then
+        echo "🌐 Red 'lab_virtual_net' no encontrada. Creándola..."
+        docker network create lab_virtual_net
+    else
+        echo "🌐 Red 'lab_virtual_net' ya existe."
     fi
 }
 
@@ -45,7 +52,16 @@ function build_image() {
         --build-arg USERNAME=dev \
         --build-arg USER_UID=$USER_UID \
         --build-arg USER_GID=$USER_GID \
-        -t $IMAGE_NAME "$DOCKERFILE_DIR"
+        -t $IMAGE_NAME "$SETUP_DIR"
+}
+
+function pull_docker_compose_images() {
+    if [ -f "$SETUP_DIR/docker-compose.yml" ]; then
+        echo "📥 Descargando imágenes definidas en 'docker-compose.yml'..."
+        sudo docker-compose -f "$SETUP_DIR/docker-compose.yml" pull
+    else
+        echo "⚠️ Archivo 'docker-compose.yml' no encontrado en '$SETUP_DIR'."
+    fi
 }
 
 # --- Ejecución principal ---
@@ -54,7 +70,10 @@ echo "🚀 Iniciando construcción de entorno MatrixMCU..."
 check_docker_installed
 check_docker_running
 detect_os_and_uid
+create_network
 build_image
+pull_docker_compose_images
 
-echo "✅ Imagen '${IMAGE_NAME}' creada con éxito."
-echo "👉 Ahora abre la carpeta 'alumno/' en VSCode y selecciona 'Reopen in Container'."
+
+echo "Imagen '${IMAGE_NAME}' creada con éxito."
+echo "Ahora abre la carpeta 'alumno/' en VSCode y selecciona 'Reopen in Container'."
