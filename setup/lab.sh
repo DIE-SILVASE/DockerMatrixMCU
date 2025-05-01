@@ -4,11 +4,6 @@ set -euo pipefail
 NETWORK_NAME="lab_virtual_net"
 VSC_CONTAINER="matrixmcu-dev"
 
-echo "🔧 Iniciando entorno MICROLAB..."
-if ! docker-compose up -d; then
-    echo "❌ Error: Fallo al iniciar docker-compose."
-    exit 1
-fi
 
 echo "🔌 Verificando red '$NETWORK_NAME'..."
 if ! docker network inspect "$NETWORK_NAME" >/dev/null 2>&1; then
@@ -18,6 +13,13 @@ if ! docker network inspect "$NETWORK_NAME" >/dev/null 2>&1; then
         exit 1
     fi
 fi
+
+echo "🔧 Iniciando entorno MICROLAB..."
+if ! docker-compose up -d; then
+    echo "❌ Error: Fallo al iniciar docker-compose."
+    exit 1
+fi
+
 
 echo "🔗 Conectando contenedor $VSC_CONTAINER a la red '$NETWORK_NAME'..."
 if ! docker network connect "$NETWORK_NAME" "$VSC_CONTAINER" 2>/dev/null; then
