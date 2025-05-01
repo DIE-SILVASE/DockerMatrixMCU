@@ -57,7 +57,7 @@ function Build-Image {
         .
 
     if ($LASTEXITCODE -ne 0) {
-        Write-Host "❌ Error al construir la imagen Docker." -ForegroundColor Red
+        Write-Host " Error al construir la imagen Docker." -ForegroundColor Red
         exit 1
     }
 
@@ -65,8 +65,8 @@ function Build-Image {
 }
 
 
-function Pull-DockerComposeImages {
-    Write-Host "📦 Descargando imágenes definidas en docker-compose.yml..."
+function Get-DockerComposeImages {
+    Write-Host " Descargando imágenes definidas en docker-compose.yml..."
     docker-compose pull
 
     if ($LASTEXITCODE -ne 0) {
@@ -85,7 +85,7 @@ Check-DockerRunning
 Detect-OSAndUID
 Create-Network
 Build-Image
-Pull-DockerComposeImages
+Get-DockerComposeImages
 
-Write-Host "Imagen '$IMAGE_NAME' creada con éxito." -ForegroundColor Green
-Write-Host "Ahora abre la carpeta 'alumno/' en VSCode y selecciona 'Reopen in Container'." 
+Write-Host "Imagen '$IMAGE_NAME' creada con exito." -ForegroundColor Green
+Write-Host "Ahora abre la carpeta `alumno/` en VSCode y selecciona `Reopen in Container`." -ForegroundColor Yellow

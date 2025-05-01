@@ -149,13 +149,16 @@
 
 
 
-	  {
+	{
 		"label": "Iniciar MICROLAB (Linux/Mac)",
 		"type": "shell",
 		"command": "bash",
 		"args": [
 		  "${workspaceFolder}/setup/lab.sh"
 		],
+		"options": {
+		  "cwd": "${workspaceFolder}/setup"
+		},
 		"group": "build",
 		"problemMatcher": [],
 		"detail": "Inicia el entorno de MICROLAB y abre el navegador en Linux/Mac"
@@ -170,6 +173,9 @@
 		  "-File",
 		  "${workspaceFolder}\\setup\\lab.ps1"
 		],
+		"options": {
+		  "cwd": "${workspaceFolder}\\setup"
+		},
 		"group": "build",
 		"problemMatcher": [],
 		"detail": "Inicia el entorno de MICROLAB y abre el navegador en Windows"
