@@ -268,5 +268,82 @@ También puedes usar los tasks desde fuera del contenedor:
 ```
 
 ---
+## 🛠️ Run OpenOCD Task
+
+### Preguntas frecuentes
+
+- **¿Cómo lo lanzo?**  
+  Abre la paleta de comandos (⇧⌘P en macOS / Ctrl+Shift+P en Windows/Linux), elige **Run Task** → **Run OpenOCD**.
+
+- **¿Puedo pararlo?**  
+  Sí: pulsa el botón ■ “Terminate Task” en el panel de Terminal o presiona Ctrl+C en esa terminal.
+
+- **¿Lo hago una vez y ya?**  
+  Mientras la task siga activa no necesitas relanzarla.
+
+- **¿Cada vez que conecte el cable?**  
+  Solo si detienes la task o reinicias VSCode; en caso contrario, la conexión permanece.
+
+- **¿Cómo funciona?**  
+  Inicia OpenOCD en segundo plano escuchando en el puerto GDB (3333).  
+  Tu DevContainer (VSCode) se conecta a ese puerto para depurar con Cortex-Debug.
+
+
+---
+
+# Instalación de OpenOCD en Windows
+
+Sigue estos pasos para instalar el binario de 32 bits en Windows 64 bits:
+
+1. **Descargar el binario**  
+   - Ve a https://github.com/openocd-org/openocd/releases/tag/v0.12.0  
+   - Descarga `openocd-v0.12.0-i686-w64-mingw32.tar.gz`.
+
+2. **Extraer el contenido**  
+   - Crea una carpeta, por ejemplo: `C:\tools\openocd`.  
+   - Extrae el contenido del archivo `.tar.gz` en esa carpeta.
+   - Entra en la carpeta `C:\tools\openocd\bin` y prueba ejecutar `openocd.exe`:  
+     - Haz doble clic en `openocd.exe` o desde PowerShell:  
+       ```powershell
+       & 'C:\tools\openocd\bin\openocd.exe' --version
+       ```  
+     - **SmartScreen** puede bloquearlo. Si aparece un aviso:
+       1. Haz clic en **Más información**  
+       2. Pulsa **Ejecutar de todas formas**  
+       3. Alternativamente, en Propiedades del archivo marca **Desbloquear**.
+
+3. **Agregar OpenOCD al PATH**  
+   - Abre **Configuración → Sistema → Acerca de → Configuración avanzada del sistema**.  
+   - Haz clic en **Variables de entorno**.  
+   - O pon el el buscador de windows **Variables de entorno** y entra en **Editar variables de entorno del sistema**
+   - En **Variables del sistema**, selecciona la variable **Path** y pulsa **Editar**.  
+   - Pulsa **Nuevo** y añade:  
+     ```
+     C:\tools\openocd\bin #o la ubicaciondetuarchivo/openocd/bin
+     ```
+   - Acepta los cambios. 
+   - **IMPORTANTE:** cierra y reabre tu terminal para actualizar el PATH.
+   - En la terminal administrativa, ejecuta:
+     ```powershell
+     openocd --version
+     ```
+   - Deberías ver algo como:
+     ```
+     Open On-Chip Debugger 0.12.0
+     ```
+
+5. **Uso básico**  
+   - Conecta tu placa STM32 al USB.  
+   - Ejecuta en PowerShell:
+     ```powershell
+     openocd -f interface/stlink.cfg -f target/stm32f4x.cfg
+     ```
+   - Verás la salida de OpenOCD indicando que está “listening on port 3333”.
+   
+   Para que OpenOCD acceda al adaptador ST-Link, abre PowerShell o CMD **como Administrador**:
+   ```powershell
+   openocd -f interface/stlink.cfg -f target/stm32f4x.cfg
+   ```
+---
 
 ¡Listo! Tu entorno está preparado para trabajar con MatrixMCU 🎉
