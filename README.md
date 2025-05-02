@@ -262,6 +262,7 @@ Si necesitas cerrar el entorno:
 Esto cierra el contenedor sin destruirlo. Puedes reabrirlo más tarde con `Reopen in Container`.
 
 También puedes usar los tasks desde fuera del contenedor:   
+```jsonc
 "Parar dev-container MatrixMCU"
 "Eliminar dev-container MatrixMCU"
 ```
