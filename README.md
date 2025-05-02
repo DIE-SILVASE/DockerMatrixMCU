@@ -59,33 +59,6 @@ Esto:
 
 ---
 
-## 🧠 5. Abrir el DevContainer
-
-Abre la carpeta `DockerMatrixMCU/` en VSCode y selecciona `Reopen in Container`.
-
-Esto ejecutará:
-
-### ✅ `post-create.sh` (solo la primera vez)
-
-- Detecta el nombre real del usuario.
-- Crea `/home/$usuario/MatrixMCU`
-- Crea un enlace simbólico:
-  `/home/$usuario/MatrixMCU/projects → /workspace/projects`
-- Guarda el path real en `/tmp/matrixmcu_path`
-
-### ✅ `postStartCommand` (cada vez que se abre el contenedor)
-
-- Añade dinámicamente a `~/.bashrc`:
-
-```bash
-export MATRIXMCU=/home/ubuntu/MatrixMCU
-```
-
-Esto permite compatibilidad en Windows, Linux y macOS.
-
-
-
-
 
 ## 🧠 5. Abrir el DevContainer
 
@@ -287,6 +260,11 @@ Si necesitas cerrar el entorno:
 2. Ejecuta `Dev Containers: Close Remote Connection`
 
 Esto cierra el contenedor sin destruirlo. Puedes reabrirlo más tarde con `Reopen in Container`.
+
+También puedes usar los tasks desde fuera del contenedor:   
+"Parar dev-container MatrixMCU"
+"Eliminar dev-container MatrixMCU"
+```
 
 ---
 
