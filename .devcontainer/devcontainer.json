@@ -38,5 +38,6 @@
     "PATH": "${containerEnv:PATH}:/workspace/qemu_new/build"
   },
   "postCreateCommand":   "bash /workspace/projects/post-create.sh",
-  "postStartCommand":  "bash -c 'echo export MATRIXMCU=$(cat /tmp/matrixmcu_path) >> ~/.bashrc'"
+  //"postStartCommand":  "bash -c 'echo export MATRIXMCU=$(cat /tmp/matrixmcu_path) >> ~/.bashrc'"
+   "postStartCommand": "bash -c 'echo export MATRIXMCU=$(cat /tmp/matrixmcu_path) >> ~/.bashrc && if [ -f /workspaces/MatrixMCU/projects/.ip_host_openocd ]; then echo export OPENOCD_HOST_IP=$(cat /workspaces/MatrixMCU/projects/.ip_host_openocd) >> ~/.bashrc; fi'" // Cambia la ruta a la carpeta de tu proyecto y si es linux añade la variable de entorno OPENOCD_HOST_IP
 }
