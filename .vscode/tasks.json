@@ -204,12 +204,12 @@
 			}
 		  },
 		  {
-			"label": "Recargar IP del Host (Linux)",
+			"label": "Recargar IP (linux)",
 			"type": "shell",
 			"command": "bash",
 			"args": [
 			  "-c",
-			  "ip r get 1.1.1.1 | grep -oP 'src \\K[0-9.]+' > ./projects/.ip_host_openocd"
+			  "ip r get 1.1.1.1 | grep -oP \"src \\\\K[0-9.]+\" > ./projects1/.ip_host_openocd"
 			],
 			"problemMatcher": []
 		  }

@@ -39,5 +39,8 @@
   },
   "postCreateCommand":   "bash /workspace/projects/post-create.sh",
   //"postStartCommand":  "bash -c 'echo export MATRIXMCU=$(cat /tmp/matrixmcu_path) >> ~/.bashrc'"
-   "postStartCommand": "bash -c 'echo export MATRIXMCU=$(cat /tmp/matrixmcu_path) >> ~/.bashrc && if [ -f /workspaces/MatrixMCU/projects/.ip_host_openocd ]; then echo export OPENOCD_HOST_IP=$(cat /workspaces/MatrixMCU/projects/.ip_host_openocd) >> ~/.bashrc; fi'" // Cambia la ruta a la carpeta de tu proyecto y si es linux añade la variable de entorno OPENOCD_HOST_IP
+  "postStartCommand": "bash -c 'echo export MATRIXMCU=$(cat /tmp/matrixmcu_path) >> ~/.bashrc; echo MATRIXMCU exportada; if [ -f /workspace/projects/.ip_host_openocd ]; then IP=$(cat /workspace/projects/.ip_host_openocd); echo export OPENOCD_HOST_IP=$IP >> ~/.bashrc; export OPENOCD_HOST_IP=$IP; echo OPENOCD_HOST_IP exportada con valor $OPENOCD_HOST_IP; else echo Archivo .ip_host_openocd no encontrado; fi'"
+
+
+ // Cambia la ruta a la carpeta de tu proyecto y si es linux añade la variable de entorno OPENOCD_HOST_IP
 }

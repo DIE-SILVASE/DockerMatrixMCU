@@ -482,7 +482,7 @@ Conectar desde el DevContainer al OpenOCD en el host Linux **sin usar `host.dock
 
   > ***HOST***
   >
-  > **SI estás en linux, es importante que en caso de no haberlo hecho antes de abrir el devcontainer, hagas la Task "Recargar IP del Host (Linux)". Y luego habras el devcontainer** 
+  > **SI estás en linux, es importante que en caso de no haberlo hecho antes de abrir el devcontainer, hagas la Task "Recargar IP del Host (Linux)". (y eliminar el devcontainer con la task)... (para que se recargue la variable d entorno OPENOCD_HOST_IP) Y luego habras el devcontainer** 
 
    - Ejecuta en PowerShell:
      ```powershell
