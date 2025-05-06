@@ -22,4 +22,3 @@ echo "✅ Enlace simbólico creado en $MATRIXMCU_PATH/projects"
 # Guardar el path dinámico en /tmp
 echo "$MATRIXMCU_PATH" > /tmp/matrixmcu_path
 echo "✅ MATRIXMCU_PATH detectado como $MATRIXMCU_PATH y guardado en /tmp/matrixmcu_path"
-
