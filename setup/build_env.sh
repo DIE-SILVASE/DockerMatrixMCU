@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Script profesional para construir la imagen Docker personalizada de MatrixMCU
+# Script para construir la imagen Docker personalizada de MatrixMCU
 
 # --- Configuración --- 
 IMAGE_NAME="matrixmcu-env"
@@ -35,7 +35,7 @@ function detect_os_and_uid() {
     echo "🔎 Detectando sistema operativo..."
     echo "Sistema detectado: $OS_TYPE"
 
-    if [[ "$OS_TYPE" == "Linux" || "$OS_TYPE" == "Darwin" ]]; then
+    if [[ "$OS_TYPE" == "Linux" ]]; then
         USER_UID=$(id -u)
         USER_GID=$(id -g)
     else
@@ -53,6 +53,12 @@ function build_image() {
         --build-arg USER_UID=$USER_UID \
         --build-arg USER_GID=$USER_GID \
         -t $IMAGE_NAME "$SETUP_DIR"
+    if [ $? -ne 0 ]; then
+        echo "❌ Error: No se pudo construir la imagen Docker '${IMAGE_NAME}'."
+        exit 1
+    else
+        echo "✅ Imagen Docker '${IMAGE_NAME}' creada con éxito"
+    fi
 }
 
 function pull_docker_compose_images() {
@@ -74,6 +80,4 @@ create_network
 build_image
 pull_docker_compose_images
 
-
-echo "Imagen '${IMAGE_NAME}' creada con éxito."
 echo "Ahora abre la carpeta 'alumno/' en VSCode y selecciona 'Reopen in Container'."

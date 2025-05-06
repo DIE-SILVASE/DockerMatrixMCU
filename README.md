@@ -1,6 +1,6 @@
-# 🛠️ Preparación del Entorno MatrixMCU (para alumnos) 
+# 🛠️ Preparación del Entorno MatrixMCU
 
-¡Bienvenid@! Aquí tienes todo lo necesario para dejar tu entorno de desarrollo listo para trabajar con **MatrixMCU** y **QEMU**, directamente desde Visual Studio Code usando contenedores Docker.
+¡Bienvenid@! Aquí tienes todo lo necesario para dejar tu entorno de desarrollo listo para trabajar con **MatrixMCU** y **QEMU**, directamente desde **Visual Studio Code** (VSCode) usando contenedores **Docker**.
 
 ---
 
@@ -8,10 +8,10 @@
 
 Este proceso:
 
-- Construye una imagen Docker personalizada con todas las herramientas (compilador ARM, QEMU, MatrixMCU...).
+- Construye una imagen Docker personalizada con todas las herramientas necesarias (compilador ARM, QEMU, MatrixMCU...).
 - Configura automáticamente rutas, permisos y usuarios dentro del contenedor.
 - Exporta la variable de entorno `MATRIXMCU` apuntando a la raíz del framework.
-- Permite compilar, debuggear y emular sin tocar la configuración del sistema anfitrión.
+- Permite compilar, depurar y emular sin modificar la configuración del sistema anfitrión.
 
 ---
 
@@ -19,36 +19,40 @@ Este proceso:
 
 Asegúrate de tener instalado en tu máquina:
 
+- ✅ [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - ✅ [Docker](https://docs.docker.com/get-docker/)
-- ✅ [Visual Studio Code](https://code.visualstudio.com/)
-- ✅ La extensión **Dev Containers** en VSCode
+- ✅ [VSCode](https://code.visualstudio.com/)
+- ✅ La extensión [**Dev Containers**](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) en VSCode
 
 ---
 
 ## 🧰 3. Clonar el repositorio
 
-Abre una terminal y ejecuta:
+Abre un terminal y clona este repositorio:
 
 ```bash
-git clone https://github.com/tu_usuario/DockerMatrixMCU.git
+cd DIRECTORIO/DONDE/QUIERES/INSTALAR/EL/ENTORNO
+```
+```bash
+git clone https://github.com/DIE-SILVASE/DockerMatrixMCU.git
 ```
 
-Opcionalmente:
+Opcionalmente, ejecuta el siguiente comando:
+
 ```bash
 git config --global core.autocrlf input
 ```
+
 Esto evitará problemas con saltos de línea si trabajas en Windows.
 
 ---
 
-## 🧰 4. Construir el entorno (solo una vez)
+## 🧰 4. Construir el entorno (SOLO UNA VEZ)
 
-### 🪄 PASO 1 — Ejecutar la Task de Build
-
-Desde la paleta de comandos de VSCode (`Ctrl+Shift+P > Tasks: Run Task`):
-
-- 🔹 `Build MatrixMCU Environment (Linux/macOS)`
-- 🔹 `Build MatrixMCU Environment (Windows-PowerShell)`
+- Abre el repositorio que acabas de clonar (i.e., la carpeta`DockerMatrixMCU/`) en VSCode.
+- Abre la paleta de comandos de VSCode (`Ctrl+Shift+P` en Windows y Linux, `⌘+Shift+P` en MacOS).
+- Ejecuta la tarea para construir el entorno:
+    - 🔹 `Tasks: Run Task > Build MatrixMCU Environment`
 
 Esto:
 
@@ -59,10 +63,12 @@ Esto:
 
 ---
 
+## 🧠 5. Abrir el *DevContainer* con Docker
 
-## 🧠 5. Abrir el DevContainer
-
-Abre la carpeta `DockerMatrixMCU/` en VSCode y selecciona `Reopen in Container`.
+- Abre la carpeta `DockerMatrixMCU/` en VSCode (si no la tenías ya abierta).
+- Abre la paleta de comandos de VSCode (`Ctrl+Shift+P` en Windows y Linux, `⌘+Shift+P` en MacOS).
+- Ejecuta la tarea para abrir la carpeta desde el contenedor que acabamos de crear:
+    - 🔹 `Dev Containers: Reopen in Container`
 
 Esto ejecutará automáticamente algunos scripts de configuración del entorno.
 
@@ -81,15 +87,14 @@ Esto ejecutará automáticamente algunos scripts de configuración del entorno.
 
 ### 🧭 Una vez dentro del DevContainer
 
-Para trabajar en un proyecto específico, abre una terminal e introduce:
+Para trabajar en un proyecto específico (por ejemplo, `MI_PROYECTO`), abre una terminal e introduce:
 
 ```bash
-cd projects/mi_proyecto
+cd projects/MI_PROYECTO
 code .
 ```
 
-Esto abrirá el proyecto dentro del contenedor en una nueva ventana de VSCode, permitiéndote compilar, depurar y usar todas las tareas integradas.
-
+Esto abrirá el proyecto **dentro del contenedor en una nueva ventana de VSCode**, permitiéndote compilar, depurar y usar todas las tareas integradas.
 
 ---
 
@@ -108,7 +113,7 @@ Estos tasks permiten:
 
 > ℹ️ **Nota importante:**  
 > Después del paso anterior (`Reopen in Container`), solo tendrás abierta la carpeta `DockerMatrixMCU/` *dentro del DevContainer*.  
-> Para ejecutar los tasks generales como **"Iniciar MICROLAB"** o **"Parar MICROLAB"**, necesitas volver a abrir la carpeta raíz del proyecto (`DockerMatrixMCU/`) desde fuera del contenedor.
+> Para ejecutar los tasks generales como **"Iniciar MICROLAB"** o **"Parar MICROLAB"**, necesitas volver a abrir la carpeta raíz del proyecto (`DockerMatrixMCU/`) **desde fuera del contenedor**.
 >
 > Puedes hacerlo con `Ctrl+K Ctrl+O` y seleccionando la carpeta original.  
 > Así tendrás **dos ventanas de VSCode abiertas**: una con el entorno del DevContainer (`DockerMatrixMCU/`) y otra con el proyecto local donde están los tasks.
@@ -234,16 +239,13 @@ Con esta configuración:
 
 ```jsonc
 // 🚧 SOLO LA PRIMERA VEZ
-"Build MatrixMCU Environment (Linux/macOS)"
-"Build MatrixMCU Environment (Windows-PowerShell)"
+"Build MatrixMCU Environment"
 
-// 🔁 Para iniciar el laboratorio
-"Iniciar MICROLAB (Linux/Mac)"
-"Iniciar MICROLAB (Windows)"
+// 🔁 Para iniciar el laboratorio virtual MICROLAB
+"Iniciar MICROLAB"
 
-// 🛑 Para detener el laboratorio
-"Parar MICROLAB (Linux/Mac)"
-"Parar MICROLAB (Windows)"
+// 🛑 Para detener el laboratorio virtual MICROLAB
+"Parar MICROLAB"
 
 // 🧹 DevContainer
 "Parar dev-container MatrixMCU"
@@ -343,11 +345,6 @@ openocd -f interface/stlink.cfg -f target/stm32f4x.cfg
 ```
 
 🔧 Si da error, mantén pulsado RESET al lanzarlo.
-
-También puedes usar la task:
-```
-Run OpenOCD (Windows)
-```
 
 ---
 

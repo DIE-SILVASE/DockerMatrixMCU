@@ -18,7 +18,7 @@
 		//   {
 		// 	"label": "Abrir DevContainer en subcarpeta",
 		// 	"type": "shell",
-		// 	"command": "code --remote devcontainer+${workspaceFolder}/projects1/${input:launchTargetID}#workspace=${workspaceFolder}/projects/${input:launchTargetID}",  // Usar el input para pasar el valor dinámico
+		// 	"command": "code --remote devcontainer+${workspaceFolder}/projects/${input:launchTargetID}#workspace=${workspaceFolder}/projects/${input:launchTargetID}",  // Usar el input para pasar el valor dinámico
 		// 	"group": "none",
 		// 	"problemMatcher": [],
 		// 	"detail": "Abre el devcontainer en una subcarpeta específica."
@@ -35,7 +35,7 @@
 		// 	"detail": "Abre directamente el entorno MatrixMCU en DevContainer."
 		//   },	 
 		{
-			"label": "Iniciar MICROLAB (Linux/Mac)",
+			"label": "Iniciar MICROLAB",
 			"type": "shell",
 			"command": "bash",
 			"args": [
@@ -44,48 +44,38 @@
 			"options": {
 				"cwd": "${workspaceFolder}/setup"
 			},
-			"group": "build",
-			"problemMatcher": [],
-			"detail": "Inicia el entorno de MICROLAB y abre el navegador en Linux/Mac"
-		},
-		{
-			"label": "Iniciar MICROLAB (Windows)",
-			"type": "shell",
-			"command": "powershell",
-			"args": [
-				"-ExecutionPolicy",
-				"Bypass",
-				"-File",
-				"${workspaceFolder}\\setup\\lab.ps1"
-			],
-			"options": {
-				"cwd": "${workspaceFolder}\\setup"
+			"windows": {
+				"command": "powershell",
+				"args": [
+					"-ExecutionPolicy",
+					"Bypass",
+					"-File",
+					"${workspaceFolder}\\setup\\lab.ps1"
+				],
+				"options": {
+					"cwd": "${workspaceFolder}\\setup"
+				},
 			},
 			"group": "build",
 			"problemMatcher": [],
-			"detail": "Inicia el entorno de MICROLAB y abre el navegador en Windows"
+			"detail": "Inicia el entorno de MICROLAB y abre el navegador"
 		},
 		{
-			"label": "Parar MICROLAB (Linux/Mac)",
+			"label": "Parar MICROLAB",
 			"type": "shell",
 			"command": "cd ${workspaceFolder}/setup && docker-compose down", // Detiene el entorno del laboratorio
+			"windows": {
+				"command": "powershell",
+				"args": [
+					"-ExecutionPolicy",
+					"Bypass",
+					"-Command",
+					"cd ${workspaceFolder}/setup; docker-compose down"
+				]
+			},
 			"group": "build",
 			"problemMatcher": [],
 			"detail": "Detiene el entorno de MICROLAB."
-		},
-		{
-			"label": "Parar MICROLAB (Windows)",
-			"type": "shell",
-			"command": "powershell",
-			"args": [
-				"-ExecutionPolicy",
-				"Bypass",
-				"-Command",
-				"cd ${workspaceFolder}/setup; docker-compose down"
-			],
-			"group": "build",
-			"problemMatcher": [],
-			"detail": "Detiene el entorno de MICROLAB en Windows usando PowerShell."
 		},
 		{
 			"label": "Parar dev-container MatrixMCU",
@@ -104,42 +94,28 @@
 			"detail": "Detiene el contenedor Docker del devcontainer."
 		},
 		{
-			"label": "Build MatrixMCU Environment (Windows-PowerShell)",
-			"type": "shell",
-			"command": "powershell.exe",
-			"args": [
-				"-ExecutionPolicy",
-				"Bypass",
-				"-File",
-				"${workspaceFolder}\\setup\\build_env.ps1"
-			],
-			"problemMatcher": [],
-			"group": {
-				"kind": "build",
-				"isDefault": false
-			},
-			"options": {
-				"cwd": "${workspaceFolder}\\setup"
-			},
-			"presentation": {
-				"echo": true,
-				"reveal": "always",
-				"focus": false,
-				"panel": "shared"
-			},
-			"detail": "🚧 SOLO NECESARIO LA PRIMERA VEZ. Construye la imagen personalizada de MatrixMCU para Windows y descarga las imágenes necesarias del laboratorio."
-		},
-		{
-			"label": "Build MatrixMCU Environment (Linux/macOS)",
+			"label": "Build MatrixMCU Environment",
 			"type": "shell",
 			"command": "bash -c ./build_env.sh",
+			"options": {
+				"cwd": "${workspaceFolder}/setup"
+			},
+			"windows": {
+				"command": "powershell.exe",
+				"args": [
+					"-ExecutionPolicy",
+					"Bypass",
+					"-File",
+					"${workspaceFolder}\\setup\\build_env.ps1"
+				],
+				"options": {
+					"cwd": "${workspaceFolder}\\setup"
+				},
+			},
 			"problemMatcher": [],
 			"group": {
 				"kind": "build",
 				"isDefault": false
-			},
-			"options": {
-				"cwd": "${workspaceFolder}/setup"
 			},
 			"presentation": {
 				"echo": true,
@@ -150,36 +126,12 @@
 			"detail": "🚧 SOLO NECESARIO LA PRIMERA VEZ. Construye la imagen personalizada de MatrixMCU para Linux/macOS y descarga las imágenes necesarias del laboratorio."
 		},
 		{
-			"label": "Run OpenOCD (Windows)", //Si no funciona preuba a lanzarlo mientras pulsas el boton de reset del nucleo
-			"type": "shell",
-			"command": "C:\\tools\\openocd\\bin\\openocd.exe", //con poner openocd dbería servir, siempre que se haya añadido al path
-			"args": [
-			  "-f", "interface/stlink.cfg",
-			  "-f", "target/stm32f4x.cfg"
-			],
-			"options": {
-			  "cwd": "${workspaceFolder}"
-			},
-			"isBackground": true,
-			"problemMatcher": {
-			  "owner": "cortex-debug",
-			  "pattern": [{ "regexp": ".+" }],
-			  "background": {
-				"activeOnStart": true,
-				"beginsPattern": "Info : Listening on port 6666",
-				"endsPattern": "Info : Listening on port 3333"
-			  }
-			},
-			"presentation": {
-			  "reveal": "always",
-			  "panel": "dedicated",
-			  "clear": true
-			}
-		  },
-		  {
-			"label": "Run OpenOCD (Linux/macOS)", // Si no funciona, prueba a mantener pulsado el botón de reset al lanzarla
+			"label": "Run OpenOCD", //Si no funciona preuba a lanzarlo mientras pulsas el boton de reset del nucleo
 			"type": "shell",
 			"command": "openocd", // Asegúrate de que openocd está en el PATH
+			"windows":{
+				"command": "C:\\tools\\openocd\\bin\\openocd.exe", //con poner openocd debería servir, siempre que se haya añadido al path
+			},
 			"args": [
 			  "-f", "interface/stlink.cfg",
 			  "-f", "target/stm32f4x.cfg"
@@ -202,17 +154,16 @@
 			  "panel": "dedicated",
 			  "clear": true
 			}
-		  },
-		  {
-			"label": "Recargar IP (linux)",
+		},
+		{
+			"label": "Recargar IP de OpenOCD (Linux)",
 			"type": "shell",
 			"command": "bash",
 			"args": [
 			  "-c",
-			  "ip r get 1.1.1.1 | grep -oP \"src \\\\K[0-9.]+\" > ./projects1/.ip_host_openocd"
+			  "ip r get 1.1.1.1 | grep -oP \"src \\\\K[0-9.]+\" > ./projects/.ip_host_openocd"
 			],
 			"problemMatcher": []
-		  }
-
+		}
 	]
 }

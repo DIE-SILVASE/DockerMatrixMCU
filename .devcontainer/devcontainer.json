@@ -1,11 +1,11 @@
 {
   "name": "MatrixMCU DevContainer",
   "image": "matrixmcu-env",
-  //para ponerme un nombre
   "runArgs": [
     "--name", "matrixmcu-dev"
   ],
-  "remoteUser": "root",
+  "remoteUser": "dev",
+  "updateRemoteUserUID": true,
   "workspaceFolder": "/workspace",
   "customizations": {
     "vscode": {
@@ -16,6 +16,7 @@
         "rioj7.command-variable",
         "marus25.cortex-debug",
         "matepek.vscode-catch2-test-adapter",
+        "mcu-debug.debug-tracker-vscode",
         "ms-vscode.cpptools-themes",
         "marus25.rtos-views",
         "marus25.peripheral-viewer",
@@ -32,7 +33,7 @@
     }
   },
   "mounts": [
-    "source=${localWorkspaceFolder}/projects1,target=/workspace/projects,type=bind,consistency=cached"
+    "source=${localWorkspaceFolder}/projects,target=/workspace/projects,type=bind,consistency=cached"
   ],
   "remoteEnv": {
     "PATH": "${containerEnv:PATH}:/workspace/qemu_new/build"
