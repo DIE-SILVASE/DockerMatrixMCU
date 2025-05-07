@@ -81,7 +81,7 @@ Esto ejecutará automáticamente algunos scripts de configuración del entorno.
 > 
 > o
 > 
-> export MATRIXMCU=/home/dev/MatrixMCU
+> =/home/dev/MatrixMCU
 > ```
 > _Esto garantiza compatibilidad con Windows, Linux y macOS y permite que el sistema detecte automáticamente la ruta al framework MatrixMCU._
 

@@ -83,7 +83,7 @@
       "runToEntryPoint": "main",
       "type": "cortex-debug",
       "servertype": "qemu",
-      "serverpath": "${env:MATRIXMCU}/../qemu_new/build/qemu-system-arm", // PORTABILITY: change this to your QEMU path
+      "serverpath": "qemu-system-arm",
       "cpu": "cortex-m4",
       "machine": "netduinoplus2",
       "device": "STM32F405RG", // PORTABILITY: change this to your platform
@@ -101,7 +101,7 @@
       "runToEntryPoint": "main",
       "type": "cortex-debug",
       "servertype": "qemu",
-      "serverpath": "${env:MATRIXMCU}/../qemu_new/build/qemu-system-arm", // PORTABILITY: change this to your QEMU path
+      "serverpath": "qemu-system-arm",
       "cpu": "cortex-m4",
       "machine": "netduinoplus2",
       "device": "STM32F405RG", // PORTABILITY: change this to your platform
@@ -119,7 +119,7 @@
       //"runToEntryPoint": "main",
       "type": "cortex-debug",
       "servertype": "qemu",
-      "serverpath": "${env:MATRIXMCU}/../qemu_new/build/qemu-system-arm",
+      "serverpath": "qemu-system-arm",
       "serverArgs": [
         "-qtest",
         "tcp:rust-server:3000"
@@ -141,7 +141,7 @@
       "runToEntryPoint": "main",
       "type": "cortex-debug",
       "servertype": "qemu",
-      "serverpath": "${env:MATRIXMCU}/../qemu_new/build/qemu-system-arm",
+      "serverpath": "$qemu-system-arm",
       "serverArgs": [
         "-qtest",
         "tcp:rust-server:3000"

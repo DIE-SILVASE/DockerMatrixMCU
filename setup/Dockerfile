@@ -5,7 +5,7 @@ FROM ubuntu:24.04
 ARG USERNAME=dev
 ARG USER_UID=1000
 ARG USER_GID=1000
-ARG QEMU_PORT=3000
+ARG QTEST_PORT=3000
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -46,13 +46,10 @@ RUN echo "Configuring UID ${USER_UID}..." && \
     fi && \
     echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-# Clonar MatrixMCU bajo el usuario correcto e instalar dependencias
-RUN git clone --recursive --depth=1 -b dev https://github.com/sdg2DieUpm/MatrixMCU.git /home/${USERNAME}/MatrixMCU && \
-    /home/${USERNAME}/MatrixMCU/install/ubuntu24.sh && \
+# Clonar MatrixMCU e instalar dependencias
+RUN git clone --recursive --depth=1 -b dev https://github.com/sdg2DieUpm/MatrixMCU.git /MatrixMCU && \
+    /MatrixMCU/install/ubuntu24.sh && \
     rm /tmp/arm-toolchain.tar.xz
-
-# Añadir el PATH global del toolchain ARM
-ENV PATH=/opt/MatrixMCU/bin:$PATH
 
 # Instalar herramientas necesarias para compilar QEMU
 RUN apt install -y \
@@ -61,22 +58,27 @@ RUN apt install -y \
     libglib2.0-dev libpixman-1-dev zlib1g-dev \
     ninja-build flex bison libncurses-dev zsh
 
-# Clonar QEMU bajo el usuario correcto y compilarlo
-RUN git clone --depth=1 -b dev-stm32-gpio https://github.com/DIE-SILVASE/qemu_new.git /home/${USERNAME}/qemu_new && \
-    cd /home/${USERNAME}/qemu_new && mkdir build && cd build && \
+# Clonar QEMU y compilarlo
+RUN git clone --depth=1 -b dev-stm32-gpio https://github.com/DIE-SILVASE/qemu_new.git /qemu_new && \
+    cd /qemu_new && mkdir build && cd build && \
     ../configure --target-list=arm-softmmu && make -j$(nproc)
 
 # Limpiar cache de apt
 RUN apt clean && rm -rf /var/lib/apt/lists/*
 
-# Cambiar permisos de los directorios
-RUN chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
+# Crear variable de entorno para apuntar a MatrixMCU
+ENV MATRIXMCU=/MatrixMCU
+# Añadir al PATH global la toolchain de ARM y QEMU
+ENV PATH=/opt/MatrixMCU/bin:/qemu_new/build:$PATH
 
-# Trabajar en MatrixMCU
-WORKDIR /home/${USERNAME}/MatrixMCU
+# # Cambiar permisos de los directorios
+# RUN chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
 
-# Exponer puerto qemu
-EXPOSE ${QEMU_PORT}
+# # Trabajar en MatrixMCU
+# WORKDIR /home/${USERNAME}/MatrixMCU
+
+# Exponer puerto QTest
+EXPOSE ${QTEST_PORT}
 
 # Shell
 CMD ["bash"]
