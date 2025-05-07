@@ -20,9 +20,9 @@ Este proceso:
 Asegúrate de tener instalado en tu máquina:
 
 - ✅ [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
-- ✅ [Docker](https://docs.docker.com/get-docker/)
+- ✅ [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 - ✅ [VSCode](https://code.visualstudio.com/)
-- ✅ La extensión [**Dev Containers**](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) en VSCode
+- ✅ La extensión de VSCode [**Dev Containers**](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
 
 ---
 
@@ -47,9 +47,9 @@ Esto evitará problemas con saltos de línea si trabajas en Windows.
 
 ---
 
-## 🧰 4. Construir el entorno (SOLO UNA VEZ)
+## 🧰 4. Construir el entorno de desarrollo (SOLO UNA VEZ)
 
-- Abre el repositorio que acabas de clonar (i.e., la carpeta`DockerMatrixMCU/`) en VSCode.
+- Abre el repositorio que acabas de clonar (i.e., la carpeta `DockerMatrixMCU`) en VSCode.
 - Abre la paleta de comandos de VSCode (`Ctrl+Shift+P` en Windows y Linux, `⌘+Shift+P` en MacOS).
 - Ejecuta la tarea para construir el entorno:
     - 🔹 `Tasks: Run Task > Build MatrixMCU Environment`
@@ -58,7 +58,7 @@ Esto:
 
 - Detecta el sistema operativo y UID del host.
 - Construye la imagen `matrixmcu-env`.
-- Crea la red `lab_virtual_net` si no existe.
+- Crea la red `lab_virtual_net` (si no existe ya).
 - Descarga las imágenes necesarias del laboratorio.
 
 ---
@@ -72,19 +72,7 @@ Esto:
 
 Esto ejecutará automáticamente algunos scripts de configuración del entorno.
 
-> _ℹ️ **Scripts de inicialización dentro del contenedor:**_  
-> _• `post-create.sh` (solo la primera vez): detecta el usuario real dentro del contenedor, crea `/home/$usuario/MatrixMCU`, establece un enlace simbólico hacia `/workspace/projects` y guarda la ruta efectiva en `/tmp/matrixmcu_path`._  
-> _• `postStartCommand` (cada vez que se abre el contenedor): añade dinámicamente a `~/.bashrc` la ruta efectiva guardada en `/tmp/matrixmcu_path`:_  
->
-> ```bash
-> export MATRIXMCU=/home/ubuntu/MatrixMCU
-> 
-> o
-> 
-> =/home/dev/MatrixMCU
-> ```
-> _Esto garantiza compatibilidad con Windows, Linux y macOS y permite que el sistema detecte automáticamente la ruta al framework MatrixMCU._
-
+<!-- 
 ### 🧭 Una vez dentro del DevContainer
 
 Para trabajar en un proyecto específico (por ejemplo, `MI_PROYECTO`), abre una terminal e introduce:
@@ -95,6 +83,7 @@ code .
 ```
 
 Esto abrirá el proyecto **dentro del contenedor en una nueva ventana de VSCode**, permitiéndote compilar, depurar y usar todas las tareas integradas.
+-->
 
 ---
 
@@ -112,20 +101,19 @@ Estos tasks permiten:
 ### ▶️ Iniciar MICROLAB
 
 > ℹ️ **Nota importante:**  
-> Después del paso anterior (`Reopen in Container`), solo tendrás abierta la carpeta `DockerMatrixMCU/` *dentro del DevContainer*.  
+> Después del paso anterior (`Reopen in Container`), estarás **dentro del DevContainer**.  
 > Para ejecutar los tasks generales como **"Iniciar MICROLAB"** o **"Parar MICROLAB"**, necesitas volver a abrir la carpeta raíz del proyecto (`DockerMatrixMCU/`) **desde fuera del contenedor**.
 >
 > Puedes hacerlo con `Ctrl+K Ctrl+O` y seleccionando la carpeta original.  
 > Así tendrás **dos ventanas de VSCode abiertas**: una con el entorno del DevContainer (`DockerMatrixMCU/`) y otra con el proyecto local donde están los tasks.
 
-Selecciona uno de estos tasks según tu sistema operativo:
+Selecciona la siguiente tarea:
 
-- **Linux/macOS**: `Iniciar MICROLAB (Linux/Mac)`
-- **Windows**: `Iniciar MICROLAB (Windows)`
+- `Iniciar MICROLAB`
 
 Esto ejecutará el script correspondiente (`lab.sh` o `lab.ps1`), que:
 
-1. Lanza el entorno con `docker-compose up -d`
+1. Lanza el entorno con `docker compose up -d`
 2. Conecta automáticamente el contenedor `matrixmcu-dev` a la red `lab_virtual_net`
 3. Abre la interfaz del laboratorio en el navegador (`http://localhost:5173`)
 
@@ -136,15 +124,15 @@ Esto iniciará QEMU con la conexión al entorno activo. ¡No lo olvides!
 
 ### 🛑 Parar MICROLAB
 
-Selecciona el task correspondiente:
+Selecciona la siguiente tarea:
 
-- **Linux/macOS**: `Parar MICROLAB (Linux/Mac)`
-- **Windows**: `Parar MICROLAB (Windows)`
+- `Parar MICROLAB`
 
-Esto ejecutará `docker-compose down` desde la carpeta `setup`.
+Esto ejecutará `docker compose down` desde la carpeta `setup`.
 
 ---
 
+<!-- 
 ## 🔁 Cambios en CMake
 
 En tu `CMakeLists.txt`, MatrixMCU se detecta así:
@@ -159,6 +147,7 @@ INCLUDE(${MATRIXMCU}/CMakeLists.txt)
 ```
 
 ---
+
 
 ## 🐞 Cambios en `launch.json` (debug)
 
@@ -253,6 +242,7 @@ Con esta configuración:
 ```
 
 ---
+-->
 
 ## 🧼 Opcional: detener el DevContainer manualmente
 
@@ -495,10 +485,6 @@ Conectar desde el DevContainer al OpenOCD en el host Linux **sin usar `host.dock
    ``` -->
   ***DEVCONTAINER***
   -Launch.json: "Clean and Debug (stm32f446re) (External OpenOCD)
-
-
-
-
 
 ### Preguntas frecuentes
 

@@ -15,7 +15,7 @@ if ! docker network inspect "$NETWORK_NAME" >/dev/null 2>&1; then
 fi
 
 echo "🔧 Iniciando entorno MICROLAB..."
-if ! docker-compose up -d; then
+if ! docker compose up -d; then
     echo "❌ Error: Fallo al iniciar docker-compose."
     exit 1
 fi

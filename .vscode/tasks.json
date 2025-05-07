@@ -1,39 +1,6 @@
 {
 	"version": "2.0.0",
-	// "inputs": [
-	// 	{
-	// 	  "id": "launchTargetID",  // Definir el input para seleccionar la subcarpeta
-	// 	  "type": "command",
-	// 	  "command": "extension.commandvariable.pickStringRemember",  // Comando para mostrar las opciones
-	// 	  "args": {
-	// 		"description": "Selecciona la subcarpeta:",
-	// 		"default": "microlab_ejemplo",  // Valor por defecto
-	// 		"options": [
-	// 		  "microlab_ejemplo"  // Las subcarpetas que el usuario puede elegir
-	// 		]
-	// 	  }
-	// 	}
-	//   ],
-	"tasks": [
-		//   {
-		// 	"label": "Abrir DevContainer en subcarpeta",
-		// 	"type": "shell",
-		// 	"command": "code --remote devcontainer+${workspaceFolder}/projects/${input:launchTargetID}#workspace=${workspaceFolder}/projects/${input:launchTargetID}",  // Usar el input para pasar el valor dinámico
-		// 	"group": "none",
-		// 	"problemMatcher": [],
-		// 	"detail": "Abre el devcontainer en una subcarpeta específica."
-		//   },
-		//   {  
-		// 	"label": "Abrir entorno MatrixMCU",
-		// 	"type": "shell",
-		// 	"command": "code",
-		// 	"args": [
-		// 		"--folder-uri",
-		// 		"vscode-remote://dev-container+${workspaceFolder}"
-		// 	],
-		// 	"problemMatcher": [],
-		// 	"detail": "Abre directamente el entorno MatrixMCU en DevContainer."
-		//   },	 
+	"tasks": [ 
 		{
 			"label": "Iniciar MICROLAB",
 			"type": "shell",
@@ -63,14 +30,14 @@
 		{
 			"label": "Parar MICROLAB",
 			"type": "shell",
-			"command": "cd ${workspaceFolder}/setup && docker-compose down", // Detiene el entorno del laboratorio
+			"command": "cd ${workspaceFolder}/setup && docker compose down", // Detiene el entorno del laboratorio
 			"windows": {
 				"command": "powershell",
 				"args": [
 					"-ExecutionPolicy",
 					"Bypass",
 					"-Command",
-					"cd ${workspaceFolder}/setup; docker-compose down"
+					"cd ${workspaceFolder}/setup; docker compose down"
 				]
 			},
 			"group": "build",
@@ -140,30 +107,20 @@
 			  "cwd": "${workspaceFolder}"
 			},
 			"isBackground": true,
-			"problemMatcher": {
-			  "owner": "cortex-debug",
-			  "pattern": [{ "regexp": ".+" }],
-			  "background": {
-				"activeOnStart": true,
-				"beginsPattern": "Info : Listening on port 6666",
-				"endsPattern": "Info : Listening on port 3333"
-			  }
-			},
+			// "problemMatcher": {
+			//   "owner": "cortex-debug",
+			//   "pattern": [{ "regexp": ".+" }],
+			//   "background": {
+			// 	"activeOnStart": true,
+			// 	"beginsPattern": "Info : Listening on port 6666",
+			// 	"endsPattern": "Info : Listening on port 3333"
+			//   }
+			// },
 			"presentation": {
 			  "reveal": "always",
 			  "panel": "dedicated",
 			  "clear": true
 			}
-		},
-		{
-			"label": "Recargar IP de OpenOCD (Linux)",
-			"type": "shell",
-			"command": "bash",
-			"args": [
-			  "-c",
-			  "ip r get 1.1.1.1 | grep -oP \"src \\\\K[0-9.]+\" > ./projects/.ip_host_openocd"
-			],
-			"problemMatcher": []
 		}
 	]
 }

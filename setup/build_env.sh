@@ -15,7 +15,7 @@ function check_docker_installed() {
 }
 
 function check_docker_running() {
-    if ! sudo docker info &> /dev/null; then
+    if ! docker info &> /dev/null; then
         echo "❌ Docker daemon no está corriendo. Asegúrate de que Docker esté iniciado."
         exit 1
     fi
@@ -48,7 +48,7 @@ function detect_os_and_uid() {
 
 function build_image() {
     echo "🚧 Construyendo imagen Docker '${IMAGE_NAME}'..."
-    sudo docker build \
+    docker build \
         --build-arg USERNAME=dev \
         --build-arg USER_UID=$USER_UID \
         --build-arg USER_GID=$USER_GID \
@@ -64,7 +64,7 @@ function build_image() {
 function pull_docker_compose_images() {
     if [ -f "$SETUP_DIR/docker-compose.yml" ]; then
         echo "📥 Descargando imágenes definidas en 'docker-compose.yml'..."
-        sudo docker-compose -f "$SETUP_DIR/docker-compose.yml" pull
+        docker compose -f "$SETUP_DIR/docker-compose.yml" pull
     else
         echo "⚠️ Archivo 'docker-compose.yml' no encontrado en '$SETUP_DIR'."
     fi

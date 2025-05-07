@@ -38,7 +38,7 @@
       "svdFile": "${env:MATRIXMCU}/svd/STM32F446.svd", // PORTABILITY: change this to your platform
     },
     {
-      "name": "Clean and Debug (stm32f446re) (External OpenOCD) (Windows/MacOS)",
+      "name": "Debug (stm32f446re) (Docker Desktop)",
       "type": "cortex-debug",
       "request": "launch",
       "cwd": "${workspaceRoot}",
@@ -51,14 +51,14 @@
       //    - macOS/Windows (Docker Desktop): "host.docker.internal:3333"
       "gdbTarget": "host.docker.internal:3333",
       "device": "STM32F446RE",
-      "preLaunchTask": "cortex-debug: Clean and Build (stm32f446re)",  // PORTABILITY: change this to your platform
+      "preLaunchTask": "cortex-debug: Build (stm32f446re)",  // PORTABILITY: change this to your platform
       "postLaunchCommands": [
         "monitor arm semihosting enable"
       ],
       "svdFile": "${env:MATRIXMCU}/svd/STM32F446.svd",                
     },
     {
-      "name": "Clean and Debug (stm32f446re) (External OpenOCD) (linux)",
+      "name": "Clean and Debug (stm32f446re) (Docker Desktop)",
       "type": "cortex-debug",
       "request": "launch",
       "cwd": "${workspaceRoot}",
@@ -67,7 +67,9 @@
       // 1) Indicamos que el servidor de OpenOCD corre FUERA del contenedor:
       "servertype": "external",
       // 2) Apuntamos al host donde está escuchando OpenOCD:
-      "gdbTarget": "${env:OPENOCD_HOST_IP}:3333", //
+      //    - Linux con --network=host: "localhost:3333"
+      //    - macOS/Windows (Docker Desktop): "host.docker.internal:3333"
+      "gdbTarget": "host.docker.internal:3333",
       "device": "STM32F446RE",
       "preLaunchTask": "cortex-debug: Clean and Build (stm32f446re)",  // PORTABILITY: change this to your platform
       "postLaunchCommands": [
@@ -113,10 +115,10 @@
     },
     {
       "name": "Debug MICROLAB (QTest)",
-      "cwd": "${env:MATRIXMCU}/projects/microlab_ejemplo",
-      "executable": "${env:MATRIXMCU}/projects/microlab_ejemplo/bin/stm32f405rg/Debug/${input:launchTargetID}.elf",
+      "cwd": "${workspaceRoot}",
+      "executable": "${workspaceFolder}/bin/stm32f405rg/Debug/${input:launchTargetID}.elf",
       "request": "launch",
-      //"runToEntryPoint": "main",
+      "runToEntryPoint": "main",
       "type": "cortex-debug",
       "servertype": "qemu",
       "serverpath": "qemu-system-arm",
@@ -135,8 +137,8 @@
     },
     {
       "name": "Clean and Debug MICROLAB (QTest)",
-      "cwd": "${env:MATRIXMCU}/projects/microlab_ejemplo",
-      "executable": "${env:MATRIXMCU}/projects/microlab_ejemplo/bin/stm32f405rg/Debug/${input:launchTargetID}.elf",
+      "cwd": "${workspaceFolder}",
+      "executable": "${workspaceFolder}/bin/stm32f405rg/Debug/${input:launchTargetID}.elf",
       "request": "launch",
       "runToEntryPoint": "main",
       "type": "cortex-debug",
