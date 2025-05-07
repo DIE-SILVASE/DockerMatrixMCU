@@ -46,22 +46,16 @@ RUN echo "Configuring UID ${USER_UID}..." && \
     fi && \
     echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-# Clonar install-MatrixMCU e instalar dependencias
-RUN git clone --depth=1 -b dev https://github.com/sdg2DieUpm/install-MatrixMCU.git && \
-    cd install-MatrixMCU && \
-    ./ubuntu24.sh && \
-    cd .. && \
-    rm /tmp/arm-toolchain.tar.xz && \
-    rm -rf install-MatrixMCU
+# Clonar MatrixMCU bajo el usuario correcto e instalar dependencias
+RUN git clone --recursive --depth=1 -b dev https://github.com/sdg2DieUpm/MatrixMCU.git /home/${USERNAME}/MatrixMCU && \
+    /home/${USERNAME}/MatrixMCU/install/ubuntu24.sh && \
+    rm /tmp/arm-toolchain.tar.xz
 
 # Añadir el PATH global del toolchain ARM
 ENV PATH=/opt/MatrixMCU/bin:$PATH
 
-# Clonar MatrixMCU bajo el usuario correcto
-RUN git clone --depth=1 --recursive https://github.com/sdg2DieUpm/MatrixMCU.git /home/${USERNAME}/MatrixMCU
-    
 # Instalar herramientas necesarias para compilar QEMU
-RUN apt install -y --no-install-recommends \
+RUN apt install -y \
     curl xz-utils lsb-release \
     python3 python3-pip python3-venv \
     libglib2.0-dev libpixman-1-dev zlib1g-dev \
@@ -73,7 +67,7 @@ RUN git clone --depth=1 -b dev-stm32-gpio https://github.com/DIE-SILVASE/qemu_ne
     ../configure --target-list=arm-softmmu && make -j$(nproc)
 
 # Limpiar cache de apt
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt clean && rm -rf /var/lib/apt/lists/*
 
 # Cambiar permisos de los directorios
 RUN chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}

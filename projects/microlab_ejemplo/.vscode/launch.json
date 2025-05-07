@@ -11,13 +11,13 @@
       "servertype": "openocd",
       "device": "STM32F446RE", // PORTABILITY: change this to your platform
       "configFiles": [
-        "${workspaceFolder}/../../openocd/stm32f4x.cfg"
+        "${env:MATRIXMCU}/openocd/stm32f4x.cfg"
       ],
       "preLaunchTask": "cortex-debug: Build (stm32f446re)", // PORTABILITY: change this to your platform
       "postLaunchCommands": [
         "monitor arm semihosting enable",
       ],
-      "svdFile": "${workspaceFolder}/../../svd/STM32F446.svd", // PORTABILITY: change this to your platform
+      "svdFile": "${env:MATRIXMCU}/svd/STM32F446.svd", // PORTABILITY: change this to your platform
     },
     {
       "name": "Clean and Debug (stm32f446re)", // PORTABILITY: PORTABILITY: change this to your platform
@@ -29,13 +29,13 @@
       "servertype": "openocd",
       "device": "STM32F446RE", // PORTABILITY: change this to your platform
       "configFiles": [
-        "${workspaceFolder}/../../openocd/stm32f4x.cfg"
+        "${env:MATRIXMCU}/openocd/stm32f4x.cfg"
       ],
       "preLaunchTask": "cortex-debug: Clean and Build (stm32f446re)",  // PORTABILITY: change this to your platform
       "postLaunchCommands": [
         "monitor arm semihosting enable",
       ],
-      "svdFile": "${workspaceFolder}/../../svd/STM32F446.svd", // PORTABILITY: change this to your platform
+      "svdFile": "${env:MATRIXMCU}/svd/STM32F446.svd", // PORTABILITY: change this to your platform
     },
     {
       "name": "Clean and Debug (stm32f446re) (External OpenOCD) (Windows/MacOS)",
@@ -44,17 +44,13 @@
       "cwd": "${workspaceRoot}",
       "executable": "${workspaceFolder}/bin/stm32f446re/Debug/${input:launchTargetID}.elf",
       "runToEntryPoint": "main",
-
       // 1) Indicamos que el servidor de OpenOCD corre FUERA del contenedor:
       "servertype": "external",
-
       // 2) Apuntamos al host donde está escuchando OpenOCD:
       //    - Linux con --network=host: "localhost:3333"
       //    - macOS/Windows (Docker Desktop): "host.docker.internal:3333"
       "gdbTarget": "host.docker.internal:3333",
-
       "device": "STM32F446RE",
-
       "preLaunchTask": "cortex-debug: Clean and Build (stm32f446re)",  // PORTABILITY: change this to your platform
       "postLaunchCommands": [
         "monitor arm semihosting enable"
@@ -62,26 +58,22 @@
       "svdFile": "${env:MATRIXMCU}/svd/STM32F446.svd",                
     },
     {
-                      "name": "Clean and Debug (stm32f446re) (External OpenOCD) (linux)",
-                      "type": "cortex-debug",
-                      "request": "launch",
-                      "cwd": "${workspaceRoot}",
-                      "executable": "${workspaceFolder}/bin/stm32f446re/Debug/${input:launchTargetID}.elf",
-                      "runToEntryPoint": "main",
-
-                      // 1) Indicamos que el servidor de OpenOCD corre FUERA del contenedor:
-                      "servertype": "external",
-
-                      // 2) Apuntamos al host donde está escuchando OpenOCD:
-                      "gdbTarget": "${env:OPENOCD_HOST_IP}:3333", //
-
-                      "device": "STM32F446RE",
-
-                      "preLaunchTask": "cortex-debug: Clean and Build (stm32f446re)",  // PORTABILITY: change this to your platform
-                      "postLaunchCommands": [
-                        "monitor arm semihosting enable"
-                      ],
-                      "svdFile": "${env:MATRIXMCU}/svd/STM32F446.svd",                
+      "name": "Clean and Debug (stm32f446re) (External OpenOCD) (linux)",
+      "type": "cortex-debug",
+      "request": "launch",
+      "cwd": "${workspaceRoot}",
+      "executable": "${workspaceFolder}/bin/stm32f446re/Debug/${input:launchTargetID}.elf",
+      "runToEntryPoint": "main",
+      // 1) Indicamos que el servidor de OpenOCD corre FUERA del contenedor:
+      "servertype": "external",
+      // 2) Apuntamos al host donde está escuchando OpenOCD:
+      "gdbTarget": "${env:OPENOCD_HOST_IP}:3333", //
+      "device": "STM32F446RE",
+      "preLaunchTask": "cortex-debug: Clean and Build (stm32f446re)",  // PORTABILITY: change this to your platform
+      "postLaunchCommands": [
+        "monitor arm semihosting enable"
+      ],
+      "svdFile": "${env:MATRIXMCU}/svd/STM32F446.svd",                
     },
     {
       "name": "Debug (QEMU)",
@@ -99,7 +91,7 @@
         "${env:MATRIXMCU}/openocd/stm32f4x.cfg"
       ],
       "preLaunchTask": "cortex-debug: Build (stm32f405rg)", // PORTABILITY: change this to your platform
-      "svdFile": "${env:MATRIXMCU}/svd/stm32f405.svd", // PORTABILITY: change this to your platform
+      "svdFile": "${env:MATRIXMCU}/svd/STM32F405.svd", // PORTABILITY: change this to your platform
     },
     {
       "name": "Clean and Debug (QEMU)",
@@ -114,10 +106,10 @@
       "machine": "netduinoplus2",
       "device": "STM32F405RG", // PORTABILITY: change this to your platform
       "configFiles": [
-        "${workspaceFolder}/../../openocd/stm32f4x.cfg"
+        "${env:MATRIXMCU}/openocd/stm32f4x.cfg"
       ],
       "preLaunchTask": "cortex-debug: Clean and Build (stm32f405rg)",  // PORTABILITY: change this to your platform
-      "svdFile": "${workspaceFolder}/../../svd/STM32F405RG.svd", // PORTABILITY: change this to your platform
+      "svdFile": "${env:MATRIXMCU}/svd/STM32F405.svd", // PORTABILITY: change this to your platform
     },
     {
       "name": "Debug MICROLAB (QTest)",
@@ -139,7 +131,7 @@
         "${env:MATRIXMCU}/openocd/stm32f4x.cfg"
       ],
       "preLaunchTask": "cortex-debug: Build (stm32f405rg)",
-      "svdFile": "${env:MATRIXMCU}/svd/STM32F405RG.svd"
+      "svdFile": "${env:MATRIXMCU}/svd/STM32F405.svd"
     },
     {
       "name": "Clean and Debug MICROLAB (QTest)",
@@ -161,7 +153,7 @@
         "${env:MATRIXMCU}/openocd/stm32f4x.cfg"
       ],
       "preLaunchTask": "cortex-debug: Clean and Build (stm32f405rg)",
-      "svdFile": "${env:MATRIXMCU}/svd/STM32F405RG.svd"
+      "svdFile": "${env:MATRIXMCU}/svd/STM32F405.svd"
     }
   ],
   "inputs": [
