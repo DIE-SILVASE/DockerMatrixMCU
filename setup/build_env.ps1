@@ -5,7 +5,7 @@ $ErrorActionPreference = "Stop"
 
 # --- Configuración ---
 $IMAGE_NAME = "matrixmcu-env"
-$DOCKER_IMAGENAME = "iivvjj/matrixmcu-env:v1"
+$DOCKER_IMAGENAME = "iivvjj/matrixmcu-env:v2"
 $DOCKERFILE_DIR = Get-Location
 $HOST_SERVER = "host.docker.internal"
 
@@ -51,24 +51,24 @@ function Create-Network {
 function Build-Image {
     Write-Host "Construyendo imagen Docker '$IMAGE_NAME'..."
     
-    # & docker build `
-    #     -f Dockerfile `
-    #     --build-arg USERNAME=dev `
-    #     --build-arg USER_UID=$USER_UID `
-    #     --build-arg USER_GID=$USER_GID `
-    #     --build-arg HOST_SERVER=$HOST_SERVER ` 
-    #     -t $IMAGE_NAME `
-    #     .
-    & docker buildx build `
-        --platform linux/amd64,linux/arm64 `
+    & docker build `
         -f Dockerfile `
         --build-arg USERNAME=dev `
         --build-arg USER_UID=$USER_UID `
         --build-arg USER_GID=$USER_GID `
-        --build-arg HOST_SERVER=$HOST_SERVER `
+        --build-arg HOST_SERVER=$HOST_SERVER ` 
         -t $IMAGE_NAME `
-        --load `
         .
+    # & docker buildx build `
+    #     --platform linux/amd64,linux/arm64 `
+    #     -f Dockerfile `
+    #     --build-arg USERNAME=dev `
+    #     --build-arg USER_UID=$USER_UID `
+    #     --build-arg USER_GID=$USER_GID `
+    #     --build-arg HOST_SERVER=$HOST_SERVER `
+    #     -t $IMAGE_NAME `
+    #     --load `
+    #     .
 
     if ($LASTEXITCODE -ne 0) {
         Write-Host " Error al construir la imagen Docker." -ForegroundColor Red
@@ -113,8 +113,8 @@ Check-DockerInstalled
 Check-DockerRunning
 Detect-OSAndUID
 Create-Network
-Build-Image
-#Pull-Image
+#Build-Image
+Pull-Image
 Get-DockerComposeImages
 
 Write-Host "Imagen '$IMAGE_NAME' creada con exito." -ForegroundColor Green
