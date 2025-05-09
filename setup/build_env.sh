@@ -4,7 +4,7 @@
 
 # --- Configuración --- 
 IMAGE_NAME="matrixmcu-env"
-IMAGE_REMOTE="iivvjj/matrixmcu-env:v1"
+IMAGE_REMOTE="iivvjj/matrixmcu-env:v2"
 SETUP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" #Carpeta 'setup'
 HOST_SERVER="localhost"
 
