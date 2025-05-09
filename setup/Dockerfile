@@ -6,7 +6,9 @@ ARG USERNAME=dev
 ARG USER_UID=1000
 ARG USER_GID=1000
 ARG QTEST_PORT=3000
+ARG HOST_SERVER=localhost
 
+ENV HOST_SERVER=${HOST_SERVER}
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Instalar herramientas básicas del sistema
@@ -50,6 +52,7 @@ RUN echo "Configuring UID ${USER_UID}..." && \
 RUN git clone --recursive --depth=1 -b dev https://github.com/sdg2DieUpm/MatrixMCU.git /MatrixMCU && \
     /MatrixMCU/install/ubuntu24.sh && \
     rm /tmp/arm-toolchain.tar.xz
+
 
 # Instalar herramientas necesarias para compilar QEMU
 RUN apt install -y \

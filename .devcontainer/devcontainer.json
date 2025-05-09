@@ -2,11 +2,12 @@
   "name": "MatrixMCU DevContainer",
   "image": "matrixmcu-env",
   "runArgs": [
-    "--name", "matrixmcu-dev"
+    "--name", "matrixmcu-dev",
+    "--network", "host"
   ],
-  "remoteUser": "dev",
+  //"remoteUser": "dev",
   "updateRemoteUserUID": true,
-  "workspaceFolder": "/workspace/projects/microlab_ejemplo",
+  "workspaceFolder": "/MatrixMCU/projects/microlab_ejemplo",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -33,6 +34,7 @@
     }
   },
   "mounts": [
-    "source=${localWorkspaceFolder}/projects,target=/workspace/projects,type=bind,consistency=cached"
-  ]
+    "source=${localWorkspaceFolder}/projects,target=/MatrixMCU/projects,type=bind,consistency=cached"
+  ],
+  "postCreateCommand": "sudo chown -R dev:dev /MatrixMCU/projects"
 }
