@@ -4,7 +4,7 @@
 TASKS_JSON_PATH="${workspaceFolder}/.vscode/tasks.json"
 
 # Directorio donde se encuentran las subcarpetas
-PROJECTS_DIR="${workspaceFolder}/projects1"
+PROJECTS_DIR="${workspaceFolder}/projects"
 
 # Crear un array vacío para las opciones
 OPTIONS=()

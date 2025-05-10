@@ -15,16 +15,16 @@ if ! docker network inspect "$NETWORK_NAME" >/dev/null 2>&1; then
 fi
 
 echo "🔧 Iniciando entorno MICROLAB..."
-if ! docker-compose up -d; then
+if ! docker compose up -d; then
     echo "❌ Error: Fallo al iniciar docker-compose."
     exit 1
 fi
 
 
-echo "🔗 Conectando contenedor $VSC_CONTAINER a la red '$NETWORK_NAME'..."
-if ! docker network connect "$NETWORK_NAME" "$VSC_CONTAINER" 2>/dev/null; then
-    echo "ℹ️  Ya estaba conectado o hubo un problema (puede que no exista el contenedor)."
-fi
+# echo "🔗 Conectando contenedor $VSC_CONTAINER a la red '$NETWORK_NAME'..."
+# if ! docker network connect "$NETWORK_NAME" "$VSC_CONTAINER" 2>/dev/null; then
+#     echo "ℹ️  Ya estaba conectado o hubo un problema (puede que no exista el contenedor)."
+# fi
 
 echo "🌐 Abriendo interfaz gráfica en http://localhost:5173"
 if command -v xdg-open >/dev/null; then

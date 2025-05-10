@@ -5,7 +5,9 @@ $ErrorActionPreference = "Stop"
 
 # --- Configuración ---
 $IMAGE_NAME = "matrixmcu-env"
+$DOCKER_IMAGENAME = "iivvjj/matrixmcu-env:v2"
 $DOCKERFILE_DIR = Get-Location
+$HOST_SERVER = "host.docker.internal"
 
 # --- Funciones ---
 function Check-DockerInstalled {
@@ -48,13 +50,25 @@ function Create-Network {
 
 function Build-Image {
     Write-Host "Construyendo imagen Docker '$IMAGE_NAME'..."
-    docker build `
+    
+    & docker build `
         -f Dockerfile `
         --build-arg USERNAME=dev `
         --build-arg USER_UID=$USER_UID `
         --build-arg USER_GID=$USER_GID `
+        --build-arg HOST_SERVER=$HOST_SERVER ` 
         -t $IMAGE_NAME `
         .
+    # & docker buildx build `
+    #     --platform linux/amd64,linux/arm64 `
+    #     -f Dockerfile `
+    #     --build-arg USERNAME=dev `
+    #     --build-arg USER_UID=$USER_UID `
+    #     --build-arg USER_GID=$USER_GID `
+    #     --build-arg HOST_SERVER=$HOST_SERVER `
+    #     -t $IMAGE_NAME `
+    #     --load `
+    #     .
 
     if ($LASTEXITCODE -ne 0) {
         Write-Host " Error al construir la imagen Docker." -ForegroundColor Red
@@ -77,6 +91,21 @@ function Get-DockerComposeImages {
     Write-Host "Imagenes descargadas con exito." -ForegroundColor Green
 }
 
+function Pull-Image {
+    Write-Host "Descargando imagen preconstruida '$DOCKER_IMAGENAME' desde Docker Hub..."
+    docker pull $DOCKER_IMAGENAME
+
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host " Error al descargar la imagen." -ForegroundColor Red
+        exit 1
+    }
+
+    Write-Host "Renombrando '$DOCKER_IMAGENAME' como '$IMAGE_NAME'..."
+    docker tag $DOCKER_IMAGENAME $IMAGE_NAME
+
+    Write-Host " Imagen '$DOCKER_IMAGENAME' descargada y renombrada como '$IMAGE_NAME' con éxito." -ForegroundColor Green
+}
+
 # --- Ejecución principal ---
 Write-Host "Iniciando construccion de entorno MatrixMCU..."
 
@@ -84,7 +113,8 @@ Check-DockerInstalled
 Check-DockerRunning
 Detect-OSAndUID
 Create-Network
-Build-Image
+#Build-Image
+Pull-Image
 Get-DockerComposeImages
 
 Write-Host "Imagen '$IMAGE_NAME' creada con exito." -ForegroundColor Green
