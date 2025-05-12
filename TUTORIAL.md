@@ -9,12 +9,12 @@ Este tutorial te guía paso a paso para tener MatrixMCU listo en tu ordenador co
 Instala lo siguiente antes de empezar:
 
 - [Git](https://git-scm.com/)
-- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 - [Visual Studio Code](https://code.visualstudio.com/)
 - Extensión de VSCode: [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
 
 >
-> Solamente si vas a conectar la placa física:
+> Solamente si vas a conectar la placa física, necesitarás instalar OpenOCD.
 >
 >### Windows
 >
@@ -22,7 +22,7 @@ Instala lo siguiente antes de empezar:
     [https://github.com/openocd-org/openocd/releases/tag/v0.12.0](https://github.com/openocd-org/openocd/releases/tag/v0.12.0)
 >2. Descarga el archivo:  
    `openocd-v0.12.0-i686-w64-mingw32.tar.gz`
->3. Crea una carpeta, por ejemplo:  
+>3. Crea la siguiente carpeta:  
    `C:\tools\openocd`
 >4. Extrae el archivo `.tar.gz` en esa carpeta.
 >5. Ve a:  
@@ -47,7 +47,7 @@ Instala lo siguiente antes de empezar:
 >openocd --version
 >```
 >
->7. Instala driver: [ST-LINK](https://www.st.com/en/development-tools/stsw-link009.html)
+>7. Instala el driver [ST-LINK](https://www.st.com/en/development-tools/stsw-link009.html)
 >
 >### macOS
 >
@@ -95,17 +95,20 @@ git clone https://github.com/DIE-SILVASE/DockerMatrixMCU.git
 ## ▶️ Paso 4. Iniciar MICROLAB
 
 1. Abre de nuevo la carpeta `DockerMatrixMCU/` desde fuera del contenedor (`Ctrl+K Ctrl+O`).
-2. Pulsa `Ctrl+Shift+P` y ejecuta la task según tu sistema:
+2. Pulsa `Ctrl+Shift+P` y ejecuta la siguiente tarea:
 
-   - **Linux/macOS**: `Iniciar MICROLAB (Linux/Mac)`
-   - **Windows**: `Iniciar MICROLAB (Windows)`
+   - `Iniciar MICROLAB`
+
+>
+> Es probable que, cuando se abra la página, el entorno no esté todavía listo.
+> Refresca la ventana hasta que te aparezca la interfaz de MICROLAB.
+>
 
 ---
 
 ## 🛑 Paso 5. Parar MICROLAB
 
-- **Linux/macOS**: `Parar MICROLAB (Linux/Mac)`
-- **Windows**: `Parar MICROLAB (Windows)`
+- `Parar MICROLAB`
 
 ---
 
@@ -117,11 +120,14 @@ git clone https://github.com/DIE-SILVASE/DockerMatrixMCU.git
    code .
    ```
 2. Ve a la pestaña "Run and Debug".
-3. Selecciona `Microlab` y pulsa ▶️.
+3. Selecciona `Debug MICROLAB (QTest)` y pulsa ▶️.
 
 ---
 
 ## 🧪 Paso 7. Uso básico de OpenOCD
+
+Si quieres depurar tu código desde la placa, primero necesitarás abrir una sesión de depuración.
+
 
 ### Windows
 
@@ -134,7 +140,7 @@ git clone https://github.com/DIE-SILVASE/DockerMatrixMCU.git
 openocd -f interface/stlink.cfg -f target/stm32f4x.cfg
 ```
 
-### macOS
+### MacOS
 
 ```bash
 brew install open-ocd
@@ -176,10 +182,8 @@ Selecciona: `Dev Containers: Close Remote Connection`
 
 ```txt
 🔧 Build MatrixMCU Environment
-▶️ Iniciar MICROLAB (Linux/Mac)
-▶️ Iniciar MICROLAB (Windows)
-⏹ Parar MICROLAB (Linux/Mac)
-⏹ Parar MICROLAB (Windows)
+▶️ Iniciar MICROLAB
+⏹ Parar MICROLAB
 🧪 Run OPENOCD
 🔁 Recargar IP del Host (Linux)
 🧹 Parar dev-container MatrixMCU

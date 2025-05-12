@@ -3,9 +3,11 @@
   "image": "matrixmcu-env",
   "runArgs": [
     "--name", "matrixmcu-dev",
-    "--network", "host"
+    "--network", "host",
+    "--env", "HOST_SERVER=host.docker.internal" // For Docker Desktop users (Windows/Mac)
+    // "--env", "HOST_SERVER=localhost" // For Linux users with --network=host
   ],
-  //"remoteUser": "dev",
+  "remoteUser": "dev",
   "updateRemoteUserUID": true,
   "workspaceFolder": "/MatrixMCU/projects/microlab_ejemplo",
   "customizations": {

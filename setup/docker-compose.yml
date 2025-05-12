@@ -12,7 +12,6 @@ services:
     networks:
       - lab_virtual_net
 
-
   rust-server:
     container_name: rust-server
     image: iivvjj/rust-server:v3

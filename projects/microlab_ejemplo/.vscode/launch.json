@@ -49,7 +49,7 @@
       // 2) Apuntamos al host donde está escuchando OpenOCD:
       //    - Linux con --network=host: "localhost:3333"
       //    - macOS/Windows (Docker Desktop): "host.docker.internal:3333"
-      "gdbTarget":  "${env:HOST_SERVER}:3000",
+      "gdbTarget":  "${env:HOST_SERVER}:3333",
       "device": "STM32F446RE",
       "preLaunchTask": "cortex-debug: Build (stm32f446re)",  // PORTABILITY: change this to your platform
       "postLaunchCommands": [
@@ -69,7 +69,7 @@
       // 2) Apuntamos al host donde está escuchando OpenOCD:
       //    - Linux con --network=host: "localhost:3333"
       //    - macOS/Windows (Docker Desktop): "host.docker.internal:3333"
-      "gdbTarget": "${env:HOST_SERVER}:3000",
+      "gdbTarget": "${env:HOST_SERVER}:3333",
       "device": "STM32F446RE",
       "preLaunchTask": "cortex-debug: Clean and Build (stm32f446re)",  // PORTABILITY: change this to your platform
       "postLaunchCommands": [
