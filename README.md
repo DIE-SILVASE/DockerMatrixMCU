@@ -1,6 +1,6 @@
-# 🛠️ Preparación del Entorno MatrixMCU (para alumnos) 
+# 🛠️ Preparación del Entorno MatrixMCU
 
-¡Bienvenid@! Aquí tienes todo lo necesario para dejar tu entorno de desarrollo listo para trabajar con **MatrixMCU** y **QEMU**, directamente desde Visual Studio Code usando contenedores Docker.
+¡Bienvenid@! Aquí tienes todo lo necesario para dejar tu entorno de desarrollo listo para trabajar con **MatrixMCU** y **QEMU**, directamente desde **Visual Studio Code** (VSCode) usando contenedores **Docker**.
 
 ---
 
@@ -8,10 +8,10 @@
 
 Este proceso:
 
-- Construye una imagen Docker personalizada con todas las herramientas (compilador ARM, QEMU, MatrixMCU...).
+- Construye una imagen Docker personalizada con todas las herramientas necesarias (compilador ARM, QEMU, MatrixMCU...).
 - Configura automáticamente rutas, permisos y usuarios dentro del contenedor.
 - Exporta la variable de entorno `MATRIXMCU` apuntando a la raíz del framework.
-- Permite compilar, debuggear y emular sin tocar la configuración del sistema anfitrión.
+- Permite compilar, depurar y emular sin modificar la configuración del sistema anfitrión.
 
 ---
 
@@ -19,77 +19,71 @@ Este proceso:
 
 Asegúrate de tener instalado en tu máquina:
 
-- ✅ [Docker](https://docs.docker.com/get-docker/)
-- ✅ [Visual Studio Code](https://code.visualstudio.com/)
-- ✅ La extensión **Dev Containers** en VSCode
+- ✅ [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+- ✅ [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- ✅ [VSCode](https://code.visualstudio.com/)
+- ✅ La extensión de VSCode [**Dev Containers**](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
 
 ---
 
 ## 🧰 3. Clonar el repositorio
 
-Abre una terminal y ejecuta:
+Abre un terminal y clona este repositorio:
 
 ```bash
-git clone https://github.com/tu_usuario/DockerMatrixMCU.git
+cd DIRECTORIO/DONDE/QUIERES/INSTALAR/EL/ENTORNO
+```
+```bash
+git clone https://github.com/DIE-SILVASE/DockerMatrixMCU.git
 ```
 
-Opcionalmente:
+Opcionalmente, ejecuta el siguiente comando:
+
 ```bash
 git config --global core.autocrlf input
 ```
+
 Esto evitará problemas con saltos de línea si trabajas en Windows.
 
 ---
 
-## 🧰 4. Construir el entorno (solo una vez)
+## 🧰 4. Construir el entorno de desarrollo (SOLO UNA VEZ)
 
-### 🪄 PASO 1 — Ejecutar la Task de Build
-
-Desde la paleta de comandos de VSCode (`Ctrl+Shift+P > Tasks: Run Task`):
-
-- 🔹 `Build MatrixMCU Environment (Linux/macOS)`
-- 🔹 `Build MatrixMCU Environment (Windows-PowerShell)`
+- Abre el repositorio que acabas de clonar (i.e., la carpeta `DockerMatrixMCU`) en VSCode.
+- Abre la paleta de comandos de VSCode (`Ctrl+Shift+P` en Windows y Linux, `⌘+Shift+P` en MacOS).
+- Ejecuta la tarea para construir el entorno:
+    - 🔹 `Tasks: Run Task > Build MatrixMCU Environment`
 
 Esto:
 
 - Detecta el sistema operativo y UID del host.
 - Construye la imagen `matrixmcu-env`.
-- Crea la red `lab_virtual_net` si no existe.
+- Crea la red `lab_virtual_net` (si no existe ya).
 - Descarga las imágenes necesarias del laboratorio.
 
 ---
 
+## 🧠 5. Abrir el *DevContainer* con Docker
 
-## 🧠 5. Abrir el DevContainer
-
-Abre la carpeta `DockerMatrixMCU/` en VSCode y selecciona `Reopen in Container`.
+- Abre la carpeta `DockerMatrixMCU/` en VSCode (si no la tenías ya abierta).
+- Abre la paleta de comandos de VSCode (`Ctrl+Shift+P` en Windows y Linux, `⌘+Shift+P` en MacOS).
+- Ejecuta la tarea para abrir la carpeta desde el contenedor que acabamos de crear:
+    - 🔹 `Dev Containers: Reopen in Container`
 
 Esto ejecutará automáticamente algunos scripts de configuración del entorno.
 
-> _ℹ️ **Scripts de inicialización dentro del contenedor:**_  
-> _• `post-create.sh` (solo la primera vez): detecta el usuario real dentro del contenedor, crea `/home/$usuario/MatrixMCU`, establece un enlace simbólico hacia `/workspace/projects` y guarda la ruta efectiva en `/tmp/matrixmcu_path`._  
-> _• `postStartCommand` (cada vez que se abre el contenedor): añade dinámicamente a `~/.bashrc` la ruta efectiva guardada en `/tmp/matrixmcu_path`:_  
->
-> ```bash
-> export MATRIXMCU=/home/ubuntu/MatrixMCU
-> 
-> o
-> 
-> export MATRIXMCU=/home/dev/MatrixMCU
-> ```
-> _Esto garantiza compatibilidad con Windows, Linux y macOS y permite que el sistema detecte automáticamente la ruta al framework MatrixMCU._
-
+<!-- 
 ### 🧭 Una vez dentro del DevContainer
 
-Para trabajar en un proyecto específico, abre una terminal e introduce:
+Para trabajar en un proyecto específico (por ejemplo, `MI_PROYECTO`), abre una terminal e introduce:
 
 ```bash
-cd projects/mi_proyecto
+cd projects/MI_PROYECTO
 code .
 ```
 
-Esto abrirá el proyecto dentro del contenedor en una nueva ventana de VSCode, permitiéndote compilar, depurar y usar todas las tareas integradas.
-
+Esto abrirá el proyecto **dentro del contenedor en una nueva ventana de VSCode**, permitiéndote compilar, depurar y usar todas las tareas integradas.
+-->
 
 ---
 
@@ -107,20 +101,19 @@ Estos tasks permiten:
 ### ▶️ Iniciar MICROLAB
 
 > ℹ️ **Nota importante:**  
-> Después del paso anterior (`Reopen in Container`), solo tendrás abierta la carpeta `DockerMatrixMCU/` *dentro del DevContainer*.  
-> Para ejecutar los tasks generales como **"Iniciar MICROLAB"** o **"Parar MICROLAB"**, necesitas volver a abrir la carpeta raíz del proyecto (`DockerMatrixMCU/`) desde fuera del contenedor.
+> Después del paso anterior (`Reopen in Container`), estarás **dentro del DevContainer**.  
+> Para ejecutar los tasks generales como **"Iniciar MICROLAB"** o **"Parar MICROLAB"**, necesitas volver a abrir la carpeta raíz del proyecto (`DockerMatrixMCU/`) **desde fuera del contenedor**.
 >
 > Puedes hacerlo con `Ctrl+K Ctrl+O` y seleccionando la carpeta original.  
 > Así tendrás **dos ventanas de VSCode abiertas**: una con el entorno del DevContainer (`DockerMatrixMCU/`) y otra con el proyecto local donde están los tasks.
 
-Selecciona uno de estos tasks según tu sistema operativo:
+Selecciona la siguiente tarea:
 
-- **Linux/macOS**: `Iniciar MICROLAB (Linux/Mac)`
-- **Windows**: `Iniciar MICROLAB (Windows)`
+- `Iniciar MICROLAB`
 
 Esto ejecutará el script correspondiente (`lab.sh` o `lab.ps1`), que:
 
-1. Lanza el entorno con `docker-compose up -d`
+1. Lanza el entorno con `docker compose up -d`
 2. Conecta automáticamente el contenedor `matrixmcu-dev` a la red `lab_virtual_net`
 3. Abre la interfaz del laboratorio en el navegador (`http://localhost:5173`)
 
@@ -131,15 +124,15 @@ Esto iniciará QEMU con la conexión al entorno activo. ¡No lo olvides!
 
 ### 🛑 Parar MICROLAB
 
-Selecciona el task correspondiente:
+Selecciona la siguiente tarea:
 
-- **Linux/macOS**: `Parar MICROLAB (Linux/Mac)`
-- **Windows**: `Parar MICROLAB (Windows)`
+- `Parar MICROLAB`
 
-Esto ejecutará `docker-compose down` desde la carpeta `setup`.
+Esto ejecutará `docker compose down` desde la carpeta `setup`.
 
 ---
 
+<!-- 
 ## 🔁 Cambios en CMake
 
 En tu `CMakeLists.txt`, MatrixMCU se detecta así:
@@ -154,6 +147,7 @@ INCLUDE(${MATRIXMCU}/CMakeLists.txt)
 ```
 
 ---
+
 
 ## 🐞 Cambios en `launch.json` (debug)
 
@@ -234,16 +228,13 @@ Con esta configuración:
 
 ```jsonc
 // 🚧 SOLO LA PRIMERA VEZ
-"Build MatrixMCU Environment (Linux/macOS)"
-"Build MatrixMCU Environment (Windows-PowerShell)"
+"Build MatrixMCU Environment"
 
-// 🔁 Para iniciar el laboratorio
-"Iniciar MICROLAB (Linux/Mac)"
-"Iniciar MICROLAB (Windows)"
+// 🔁 Para iniciar el laboratorio virtual MICROLAB
+"Iniciar MICROLAB"
 
-// 🛑 Para detener el laboratorio
-"Parar MICROLAB (Linux/Mac)"
-"Parar MICROLAB (Windows)"
+// 🛑 Para detener el laboratorio virtual MICROLAB
+"Parar MICROLAB"
 
 // 🧹 DevContainer
 "Parar dev-container MatrixMCU"
@@ -251,6 +242,7 @@ Con esta configuración:
 ```
 
 ---
+-->
 
 ## 🧼 Opcional: detener el DevContainer manualmente
 
@@ -266,6 +258,246 @@ También puedes usar los tasks desde fuera del contenedor:
 "Parar dev-container MatrixMCU"
 "Eliminar dev-container MatrixMCU"
 ```
+
+-----
+## 🛠️ Run OpenOCD Task
+
+# 🔧 Instalación y uso de OpenOCD con DevContainer
+
+---
+
+## 🪟 Windows
+
+### ✅ 1. Descargar el binario de OpenOCD
+
+1. Ve a: [https://github.com/openocd-org/openocd/releases/tag/v0.12.0](https://github.com/openocd-org/openocd/releases/tag/v0.12.0)
+2. Descarga:
+   ```
+   openocd-v0.12.0-i686-w64-mingw32.tar.gz
+   ```
+
+---
+
+### 📦 2. Extraer el contenido
+
+1. Crea una carpeta, por ejemplo:
+   ```
+   C:\tools\openocd
+   ```
+2. Extrae el `.tar.gz` en esa carpeta.
+3. Entra en:
+   ```
+   C:\tools\openocd\bin
+   ```
+4. Ejecuta una prueba:
+
+```powershell
+& 'C:\tools\openocd\bin\openocd.exe' --version
+```
+
+🔐 Si aparece SmartScreen:
+- Pulsa **Más información** → **Ejecutar de todas formas**
+- O ve a Propiedades del `.exe` → marca **Desbloquear**
+
+---
+
+### 🛠 3. Añadir al PATH del sistema
+
+1. Busca `Variables de entorno` en el menú de inicio.
+2. Edita `Path` en **Variables del sistema**.
+3. Añade esta ruta (o donde lo hayas guardado):
+   ```
+   C:\tools\openocd\bin
+   ```
+4. Guarda y **reinicia la terminal**.
+5. Verifica:
+
+```powershell
+openocd --version
+```
+
+---
+
+### 🧲 4. Instalar driver ST-Link
+
+1. Descarga desde ST:
+   👉 [https://www.st.com/en/development-tools/stsw-link009.html](https://www.st.com/en/development-tools/stsw-link009.html)
+2. Instala el paquete (driver oficial ST-LINK).
+
+---
+
+### 🧪 5. Prueba desde el host (Windows)
+
+Conecta la placa y ejecuta:
+
+```powershell
+openocd -f interface/stlink.cfg -f target/stm32f4x.cfg
+```
+
+🔧 Si da error, mantén pulsado RESET al lanzarlo.
+
+---
+
+>**Depuración desde DevContainer**
+>En `launch.json`:
+>
+>```json
+>"gdbTarget": "host.docker.internal:3333",
+>"servertype": "external"
+>```
+
+---
+## 🍏 macOS
+
+### ✅ 1. Instalar OpenOCD con Homebrew
+
+```bash
+brew update
+brew install open-ocd
+```
+
+> ⚠️ Nota: El paquete se llama `open-ocd` con guión.
+
+---
+
+### ✅ 2. Verificar instalación
+
+```bash
+openocd --version
+```
+
+---
+
+### ✅ 3. Ejecutar con la placa conectada
+
+```bash
+openocd -f interface/stlink.cfg -f target/stm32f4x.cfg
+```
+
+> 🔐 En macOS no necesitas drivers, pero asegúrate de permitir acceso USB en Configuración del sistema > Seguridad y privacidad.
+
+>**Depuración desde DevContainer**
+>En `launch.json`:
+>
+>```json
+>"gdbTarget": "host.docker.internal:3333",
+>"servertype": "external"
+>```
+
+---
+## 🐧 Linux
+
+### ✅ 1. Instalar OpenOCD
+
+```bash
+sudo apt update
+sudo apt install openocd
+```
+
+---
+
+### ✅ 2. Verificar instalación
+
+```bash
+openocd --version
+```
+
+---
+
+### ✅ 3. Prueba con placa conectada
+
+```bash
+openocd -f interface/stlink.cfg -f target/stm32f4x.cfg
+```
+
+🔧 Si falla, mantén pulsado RESET al lanzar.
+
+---
+
+# 🐧 Soporte Linux con IP externa (sin Docker Desktop)
+
+## 🎯 Objetivo
+Conectar desde el DevContainer al OpenOCD en el host Linux **sin usar `host.docker.internal`**, ya que no existe en Linux.
+
+---
+
+## 🧠 Solución automatizada
+
+### Task en el host (Linux) para detectar IP y lanzar OpenOCD
+
+```json
+ {
+			"label": "Recargar IP del Host (Linux)",
+			"type": "shell",
+			"command": "bash",
+			"args": [
+			  "-c",
+			  "ip r get 1.1.1.1 | grep -oP 'src \\K[0-9.]+' > ./projects/.ip_host_openocd"
+			],
+			"problemMatcher": []
+		  }
+```
+
+---
+
+### En `devcontainer.json`:
+
+```json
+"postStartCommand": "if [ -f /workspaces/MatrixMCU/projects/.ip_host_openocd ]; then echo export OPENOCD_HOST_IP=$(cat /workspaces/MatrixMCU/projects/.ip_host_openocd) >> ~/.bashrc; fi"
+```
+
+---
+
+### En `launch.json`:
+
+```json
+"gdbTarget": "${env:OPENOCD_HOST_IP}:3333"
+```
+
+---
+
+## ✅ Resultado
+
+- IP detectada automáticamente
+- No necesitas tocar nada manualmente
+- OpenOCD se lanza en el host y se comunica correctamente con GDB desde el DevContainer
+
+
+
+## 🧪🧪🧪**Uso básico (FLUJO)**🧪🧪🧪
+   - Conecta tu placa STM32 al USB. 
+
+  > ***HOST***
+  >
+  > **SI estás en linux, es importante que en caso de no haberlo hecho antes de abrir el devcontainer, hagas la Task "Recargar IP del Host (Linux)". (y eliminar el devcontainer con la task)... (para que se recargue la variable d entorno OPENOCD_HOST_IP) Y luego habras el devcontainer** 
+
+   - Ejecuta en PowerShell:
+     ```powershell
+     openocd -f interface/stlink.cfg -f target/stm32f4x.cfg
+     ```
+     o el task: Run OPENOCD
+     
+   - Verás la salida de OpenOCD indicando que está “listening on port 3333”.
+   
+   <!-- Para que OpenOCD acceda al adaptador ST-Link, abre PowerShell o CMD **como Administrador**:
+   ```powershell
+   openocd -f interface/stlink.cfg -f target/stm32f4x.cfg
+   ``` -->
+  ***DEVCONTAINER***
+  -Launch.json: "Clean and Debug (stm32f446re) (External OpenOCD)
+
+### Preguntas frecuentes
+
+- **¿Puedo pararlo?**  
+  Sí: pulsa el botón ■ “Terminate Task” en el panel de Terminal o presiona Ctrl+C en esa terminal.
+
+- **¿Lo hago una vez y ya?**  
+  Mientras la task siga activa no necesitas relanzarla.
+
+- **¿Cómo funciona?**  
+  Inicia OpenOCD en segundo plano escuchando en el puerto GDB (3333).  
+  Tu DevContainer (VSCode) se conecta a ese puerto para depurar con Cortex-Debug.
+
 
 ---
 

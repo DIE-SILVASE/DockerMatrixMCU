@@ -1,296 +1,126 @@
 {
 	"version": "2.0.0",
-	// "inputs": [
-	// 	{
-	// 	  "id": "launchTargetID",  // Definir el input para seleccionar la subcarpeta
-	// 	  "type": "command",
-	// 	  "command": "extension.commandvariable.pickStringRemember",  // Comando para mostrar las opciones
-	// 	  "args": {
-	// 		"description": "Selecciona la subcarpeta:",
-	// 		"default": "microlab_ejemplo",  // Valor por defecto
-	// 		"options": [
-	// 		  "microlab_ejemplo"  // Las subcarpetas que el usuario puede elegir
-	// 		]
-	// 	  }
-	// 	}
-	//   ],
-	"tasks": [
-	//   {
-	// 	"label": "Iniciar laboratorio (Linux/Mac)",
-	// 	"type": "shell",
-	// 	"command": "cd ${workspaceFolder}/setup && docker-compose up -d",  // Inicia el entorno del laboratorio
-	// 	"group": "build",
-	// 	"problemMatcher": [],
-	// 	"detail": "Inicia el entorno de MICROLAB."
-	//   },
-	//   {
-	// 	"label": "Iniciar laboratorio (Windows)",
-	// 	"type": "shell",
-	// 	"command": "powershell",
-	// 	"args": [
-	// 		"-ExecutionPolicy",
-	// 		"Bypass",
-	// 		"-Command",
-	// 		"cd ${workspaceFolder}/setup; docker-compose up -d"
-	// 	],
-	// 	"group": "build",
-	// 	"problemMatcher": [],
-	// 	"detail": "Inicia el entorno de MICROLAB en Windows usando PowerShell."
-	//   },
-	//   {
-	// 	"label": "Conectar DevContainer a red lab_virtual_net (Windows)",
-	// 	"type": "shell",
-	// 	"command": "powershell",
-	// 	"args": [
-	// 		"-ExecutionPolicy",
-	// 		"Bypass",
-	// 		"-File",
-	// 		"${workspaceFolder}/setup/connect_network.ps1"
-	// 	],
-	// 	"problemMatcher": [],
-	// 	"detail": "Conecta usando PowerShell (Windows)"
-	//   },
-	//   {
-	// 	"label": "Conectar DevContainer a red lab_virtual_net (Linux/Mac)",
-	// 	"type": "shell",
-	// 	"command": "bash",
-	// 	"args": [
-	// 		"-c",
-	// 		"docker network inspect lab_virtual_net >/dev/null 2>&1 || docker network create lab_virtual_net; docker network connect lab_virtual_net matrixmcu-dev"
-	// 	  ],
-	// 	"problemMatcher": [],
-	// 	"detail": "Conecta usando bash (Linux/Mac)"
-	//   },
-	//   {
-	// 	"label": "Abrir página del laboratorio (Windows)",
-	// 	"type": "shell",
-	// 	"command": "start http://localhost:5173",  // Abre la página en el navegador
-	// 	"group": "none",
-	// 	"problemMatcher": [],
-	// 	"dependsOn": [
-	// 	  "Iniciar laboratorio (Windows)",
-	// 	  "Conectar DevContainer a red lab_virtual_net (Windows)"
-	// 	],
-	// 	"detail": "Abre la página web del laboratorio en el navegador."
-	//   },
-	//   {
-	// 	"label": "Abrir página del laboratorio (Linux/Mac)",
-	// 	"type": "shell",
-	// 	"command": "start http://localhost:5173",  // Abre la página en el navegador
-	// 	"group": "none",
-	// 	"problemMatcher": [],
-	// 	"dependsOn": [
-	// 	  "Iniciar laboratorio (Linux/Mac)",
-	// 	  "Conectar DevContainer a red lab_virtual_net (Linux/Mac)"
-	// 	],
-	// 	"detail": "Abre la página web del laboratorio en el navegador."
-	//   },
-	//   {
-	// 	"label": "Parar laboratorio (Linux/Mac)",
-	// 	"type": "shell",
-	// 	"command": "cd ${workspaceFolder}/setup && docker-compose down",  // Detiene el entorno del laboratorio
-	// 	"group": "build",
-	// 	"problemMatcher": [],
-	// 	"detail": "Detiene el entorno de MICROLAB."
-	//   },
-	//   {
-	// 	"label": "Parar laboratorio (Windows)",
-	// 	"type": "shell",
-	// 	"command": "powershell",
-	// 	"args": [
-	// 		"-ExecutionPolicy",
-	// 		"Bypass",
-	// 		"-Command",
-	// 		"cd ${workspaceFolder}/setup; docker-compose down"
-	// 	],
-	// 	"group": "build",
-	// 	"problemMatcher": [],
-	// 	"detail": "Detiene el entorno de MICROLAB en Windows usando PowerShell."
-	//   },
-	//   {
-	// 	"label": "Parar contenedor Docker",
-	// 	"type": "shell",
-	// 	"command": "docker stop matrixmcu-dev",  // Detiene el contenedor Docker
-	// 	"group": "none",
-	// 	"problemMatcher": [],
-	// 	"detail": "Detiene el contenedor Docker del devcontainer."
-	//   },
-	//   {
-	// 	"label": "Eliminar contenedor Docker",
-	// 	"type": "shell",
-	// 	"command": "docker rm matrixmcu-dev",  // Detiene el contenedor Docker
-	// 	"group": "none",
-	// 	"problemMatcher": [],
-	// 	"detail": "Detiene el contenedor Docker del devcontainer."
-	//   },
-
-
-
-
-	//   {
-	// 	"label": "Abrir DevContainer en subcarpeta",
-	// 	"type": "shell",
-	// 	"command": "code --remote devcontainer+${workspaceFolder}/projects1/${input:launchTargetID}#workspace=${workspaceFolder}/projects/${input:launchTargetID}",  // Usar el input para pasar el valor dinámico
-	// 	"group": "none",
-	// 	"problemMatcher": [],
-	// 	"detail": "Abre el devcontainer en una subcarpeta específica."
-	//   },
-	//   {  
-	// 	"label": "Abrir entorno MatrixMCU",
-	// 	"type": "shell",
-	// 	"command": "code",
-	// 	"args": [
-	// 		"--folder-uri",
-	// 		"vscode-remote://dev-container+${workspaceFolder}"
-	// 	],
-	// 	"problemMatcher": [],
-	// 	"detail": "Abre directamente el entorno MatrixMCU en DevContainer."
-	//   },	  
-
-
-
-	{
-		"label": "Iniciar MICROLAB (Linux/Mac)",
-		"type": "shell",
-		"command": "bash",
-		"args": [
-		  "${workspaceFolder}/setup/lab.sh"
-		],
-		"options": {
-		  "cwd": "${workspaceFolder}/setup"
+	"tasks": [ 
+		{
+			"label": "Iniciar MICROLAB",
+			"type": "shell",
+			"command": "bash",
+			"args": [
+				"${workspaceFolder}/setup/lab.sh"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/setup"
+			},
+			"windows": {
+				"command": "powershell",
+				"args": [
+					"-ExecutionPolicy",
+					"Bypass",
+					"-File",
+					"${workspaceFolder}\\setup\\lab.ps1"
+				],
+				"options": {
+					"cwd": "${workspaceFolder}\\setup"
+				},
+			},
+			"group": "build",
+			"problemMatcher": [],
+			"detail": "Inicia el entorno de MICROLAB y abre el navegador"
 		},
-		"group": "build",
-		"problemMatcher": [],
-		"detail": "Inicia el entorno de MICROLAB y abre el navegador en Linux/Mac"
-	  },
-	  {
-		"label": "Iniciar MICROLAB (Windows)",
-		"type": "shell",
-		"command": "powershell",
-		"args": [
-		  "-ExecutionPolicy",
-		  "Bypass",
-		  "-File",
-		  "${workspaceFolder}\\setup\\lab.ps1"
-		],
-		"options": {
-		  "cwd": "${workspaceFolder}\\setup"
+		{
+			"label": "Parar MICROLAB",
+			"type": "shell",
+			"command": "cd ${workspaceFolder}/setup && docker compose down", // Detiene el entorno del laboratorio
+			"windows": {
+				"command": "powershell",
+				"args": [
+					"-ExecutionPolicy",
+					"Bypass",
+					"-Command",
+					"cd ${workspaceFolder}/setup; docker compose down"
+				]
+			},
+			"group": "build",
+			"problemMatcher": [],
+			"detail": "Detiene el entorno de MICROLAB."
 		},
-		"group": "build",
-		"problemMatcher": [],
-		"detail": "Inicia el entorno de MICROLAB y abre el navegador en Windows"
-	  },
-	  {
-		"label": "Parar MICROLAB (Linux/Mac)",
-		"type": "shell",
-		"command": "cd ${workspaceFolder}/setup && docker-compose down",  // Detiene el entorno del laboratorio
-		"group": "build",
-		"problemMatcher": [],
-		"detail": "Detiene el entorno de MICROLAB."
-	  },
-	  {
-		"label": "Parar MICROLAB (Windows)",
-		"type": "shell",
-		"command": "powershell",
-		"args": [
-			"-ExecutionPolicy",
-			"Bypass",
-			"-Command",
-			"cd ${workspaceFolder}/setup; docker-compose down"
-		],
-		"group": "build",
-		"problemMatcher": [],
-		"detail": "Detiene el entorno de MICROLAB en Windows usando PowerShell."
-	  },
-	  {
-		"label": "Parar dev-container MatrixMCU",
-		"type": "shell",
-		"command": "docker stop matrixmcu-dev",  // Detiene el contenedor Docker
-		"group": "none",
-		"problemMatcher": [],
-		"detail": "Detiene el contenedor Docker del devcontainer."
-	  },
-	  {
-		"label": "Eliminar dev-container MatrixMCU",
-		"type": "shell",
-		"command": "docker rm matrixmcu-dev",  // Elimina el contenedor Docker
-		"group": "none",
-		"problemMatcher": [],
-		"detail": "Detiene el contenedor Docker del devcontainer."
-	  },
-
-	//   {
-	// 	"label": "Preparar entorno MatrixMCU (Linux/Mac)",
-	// 	"type": "shell",
-	// 	"command": "bash",
-	// 	"args": [
-	// 	  "-c",
-	// 	  "cd ${workspaceFolder}/setup && docker-compose build && docker build -t matrixmcu-dev ."
-	// 	],
-	// 	"group": "build",
-	// 	"problemMatcher": [],
-	// 	"detail": "Prepara el entorno de MatrixMCU en Linux/Mac, construyendo las imágenes necesarias."
-	//   },
-	//   {
-	// 	"label": "Preparar entorno MatrixMCU (Windows)",
-	// 	"type": "shell",
-	// 	"command": "powershell",
-	// 	"args": [
-	// 	  "-ExecutionPolicy",
-	// 	  "Bypass",
-	// 	  "-Command",
-	// 	  "cd ${workspaceFolder}/setup; docker-compose build; docker build -t matrixmcu-dev ."
-	// 	],
-	// 	"group": "build",
-	// 	"problemMatcher": [],
-	// 	"detail": "Prepara el entorno de MatrixMCU en Windows, construyendo las imágenes necesarias."
-	//   },
-	{
-		"label": "Build MatrixMCU Environment (Windows-PowerShell)",
-		"type": "shell",
-		"command": "powershell.exe",
-		"args": [
-		  "-ExecutionPolicy", "Bypass",
-		  "-File", "${workspaceFolder}\\setup\\build_env.ps1"
-		],
-		"problemMatcher": [],
-		"group": {
-		  "kind": "build",
-		  "isDefault": false
+		{
+			"label": "Parar dev-container MatrixMCU",
+			"type": "shell",
+			"command": "docker stop matrixmcu-dev", // Detiene el contenedor Docker
+			"group": "none",
+			"problemMatcher": [],
+			"detail": "Detiene el contenedor Docker del devcontainer."
 		},
-		"options": {
-		  "cwd": "${workspaceFolder}\\setup"
+		{
+			"label": "Eliminar dev-container MatrixMCU",
+			"type": "shell",
+			"command": "docker rm matrixmcu-dev", // Elimina el contenedor Docker
+			"group": "none",
+			"problemMatcher": [],
+			"detail": "Detiene el contenedor Docker del devcontainer."
 		},
-		"presentation": {
-		  "echo": true,
-		  "reveal": "always",
-		  "focus": false,
-		  "panel": "shared"
+		{
+			"label": "Build MatrixMCU Environment",
+			"type": "shell",
+			"command": "bash -c ./build_env.sh",
+			"options": {
+				"cwd": "${workspaceFolder}/setup"
+			},
+			"windows": {
+				"command": "powershell.exe",
+				"args": [
+					"-ExecutionPolicy",
+					"Bypass",
+					"-File",
+					"${workspaceFolder}\\setup\\build_env.ps1"
+				],
+				"options": {
+					"cwd": "${workspaceFolder}\\setup"
+				},
+			},
+			"problemMatcher": [],
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared"
+			},
+			"detail": "🚧 SOLO NECESARIO LA PRIMERA VEZ. Construye la imagen personalizada de MatrixMCU para Linux/macOS y descarga las imágenes necesarias del laboratorio."
 		},
-		"detail": "🚧 SOLO NECESARIO LA PRIMERA VEZ. Construye la imagen personalizada de MatrixMCU para Windows y descarga las imágenes necesarias del laboratorio."
-	  },
-	  {
-		"label": "Build MatrixMCU Environment (Linux/macOS)",
-		"type": "shell",
-		"command": "bash -c ./build_env.sh",
-		"problemMatcher": [],
-		"group": {
-		  "kind": "build",
-		  "isDefault": false
-		},
-		"options": {
-		  "cwd": "${workspaceFolder}/setup"
-		},
-		"presentation": {
-		  "echo": true,
-		  "reveal": "always",
-		  "focus": false,
-		  "panel": "shared"
-		},
-		"detail": "🚧 SOLO NECESARIO LA PRIMERA VEZ. Construye la imagen personalizada de MatrixMCU para Linux/macOS y descarga las imágenes necesarias del laboratorio."
-	  }
+		{
+			"label": "Run OpenOCD", //Si no funciona preuba a lanzarlo mientras pulsas el boton de reset del nucleo
+			"type": "shell",
+			"command": "openocd", // Asegúrate de que openocd está en el PATH
+			"windows":{
+				"command": "C:\\tools\\openocd\\bin\\openocd.exe", //con poner openocd debería servir, siempre que se haya añadido al path
+			},
+			"args": [
+			  "-f", "interface/stlink.cfg",
+			  "-f", "target/stm32f4x.cfg"
+			],
+			"options": {
+			  "cwd": "${workspaceFolder}"
+			},
+			"isBackground": true,
+			// "problemMatcher": {
+			//   "owner": "cortex-debug",
+			//   "pattern": [{ "regexp": ".+" }],
+			//   "background": {
+			// 	"activeOnStart": true,
+			// 	"beginsPattern": "Info : Listening on port 6666",
+			// 	"endsPattern": "Info : Listening on port 3333"
+			//   }
+			// },
+			"presentation": {
+			  "reveal": "always",
+			  "panel": "dedicated",
+			  "clear": true
+			}
+		}
 	]
-  }
-  
-
-  //Que preparacion de entorno haga docker-compose build del lab y cree la imagen de matrixmcu-dev. 
+}
