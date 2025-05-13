@@ -56,7 +56,7 @@ Dentro del contenedor, selecciona:
 Puedes:
 
 - Poner puntos de parada  
-- Observar los periféricos en XPHERIPHERALS (abajo a la izquierda), por ejemplo el led (GPIOA PIN 5).
+- Observar los periféricos en XPERIPHERALS (abajo a la izquierda), por ejemplo el led (GPIOA PIN 5).
 ---
 
 ## 🧪 DEMO 2 → Uso de la interfaz gráfica MICROLAB
