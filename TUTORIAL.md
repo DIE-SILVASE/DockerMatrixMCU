@@ -63,7 +63,7 @@ Puedes:
 
 ### Paso 1. Iniciar MICROLAB
 
-1. Abre de nuevo la carpeta `DockerMatrixMCU/` desde **fuera del contenedor**.  
+1. Abre de nuevo la carpeta en VScode `DockerMatrixMCU/` desde **fuera del contenedor**.  
 2. Pulsa `Ctrl+Shift+P` y ejecuta la tarea:
 
    ```
