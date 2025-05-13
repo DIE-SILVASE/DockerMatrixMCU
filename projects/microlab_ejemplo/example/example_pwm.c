@@ -34,7 +34,10 @@ int main()
                     // If the button is pressed for more than CHANGE_MODE_BUTTON_TIME, we toggle the LED
                     if (duration >= CHANGE_MODE_BUTTON_TIME)
                     {   //como hago para que duty_cycle sea un valor entre 0 y 100?
-                        duty_cycle= (duty_cycle + 25) % 101;
+                        duty_cycle += 25;
+                        if (duty_cycle > 100) {
+                            duty_cycle %= 100;
+                        }
                         port_pwm_set_dc(duty_cycle);
                         printf(" (long press detected)");
                         printf(" (duty cycle: %d)", duty_cycle);

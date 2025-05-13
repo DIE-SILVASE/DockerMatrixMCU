@@ -1,6 +1,6 @@
 {
     "env": {
-        "MatrixMCUWorkspaceFolder": "${workspaceFolder}/../.." // Path to the MatrixMCU workspace folder
+        "MatrixMCUWorkspaceFolder": "${env:MATRIXMCU}" // Path to the MatrixMCU workspace folder
     },
     "configurations": [
         {
