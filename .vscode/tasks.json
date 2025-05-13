@@ -61,7 +61,7 @@
 			"detail": "Detiene el contenedor Docker del devcontainer."
 		},
 		{
-			"label": "Build MatrixMCU Environment",
+			"label": "Download Images",
 			"type": "shell",
 			"command": "bash -c ./build_env.sh",
 			"options": {
@@ -90,7 +90,7 @@
 				"focus": false,
 				"panel": "shared"
 			},
-			"detail": "🚧 SOLO NECESARIO LA PRIMERA VEZ. Construye la imagen personalizada de MatrixMCU para Linux/macOS y descarga las imágenes necesarias del laboratorio."
+			"detail": "🚧 SOLO NECESARIO LA PRIMERA VEZ. Descarga las imágenes necesarias del laboratorio."
 		},
 		{
 			"label": "Run OpenOCD", //Si no funciona preuba a lanzarlo mientras pulsas el boton de reset del nucleo

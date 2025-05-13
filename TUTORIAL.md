@@ -1,4 +1,4 @@
-# 🧪 TUTORIAL MatrixMCU (VERSION NO FINALIZADA)
+# 🧪 TUTORIAL MatrixMCU 
 
 Este tutorial te guía paso a paso para tener MatrixMCU listo en tu ordenador con Visual Studio Code.
 
@@ -8,188 +8,204 @@ Este tutorial te guía paso a paso para tener MatrixMCU listo en tu ordenador co
 
 Instala lo siguiente antes de empezar:
 
-- [Git](https://git-scm.com/)
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 - [Visual Studio Code](https://code.visualstudio.com/)
 - Extensión de VSCode: [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
 
->
-> Solamente si vas a conectar la placa física, necesitarás instalar OpenOCD.
->
->### Windows
->
->1. Ve a la página de descargas:  
-    [https://github.com/openocd-org/openocd/releases/tag/v0.12.0](https://github.com/openocd-org/openocd/releases/tag/v0.12.0)
->2. Descarga el archivo:  
-   `openocd-v0.12.0-i686-w64-mingw32.tar.gz`
->3. Crea la siguiente carpeta:  
-   `C:\tools\openocd`
->4. Extrae el archivo `.tar.gz` en esa carpeta.
->5. Ve a:  
-   `C:\tools\openocd\bin` y asegurate de que ahí está openocd.exe
->6. Ejecuta este comando en PowerShell:
->```powershell
->    'C:\tools\openocd\bin\openocd.exe' --version
->```
->🔐 Si Windows SmartScreen bloquea la ejecución:
->- Haz clic en **Más información** → **Ejecutar de todas formas**
->- O botón derecho sobre el `.exe` → **Propiedades** → marca **Desbloquear**
->#### 🛠 3. Añadir OpenOCD al PATH del sistema
->
->1. Abre el menú de inicio y busca **Variables de entorno**.
->2. Edita la variable `Path` en **Variables del sistema**.
->3. Añade esta ruta (o la que hayas usado):  
-   `C:\tools\openocd\bin`
->4. Guarda y **reinicia la terminal**.
->5. Comprueba que funciona:
->
->```powershell
->openocd --version
->```
->
->7. Instala el driver [ST-LINK](https://www.st.com/en/development-tools/stsw-link009.html)
->
->### macOS
->
->```bash
->brew install open-ocd
->openocd -f interface/stlink.cfg -f target/stm32f4x.cfg
->```
->
->### Linux
->
->```bash
->sudo apt install openocd
->openocd -f interface/stlink.cfg -f target/stm32f4x.cfg
->```
+---
+
+## 📥 Paso 1. Descargar el repositorio
+
+Ve a la página  
+[https://github.com/DIE-SILVASE/DockerMatrixMCU.git](https://github.com/DIE-SILVASE/DockerMatrixMCU.git)  
+Descárgate el ZIP y descomprímelo donde quieras.
 
 ---
 
-## 📥 Paso 1. Clonar el repositorio
+## 🏗️ Paso 2. Descargar las imágenes (una sola vez)
 
-Abre la terminal y escribe:
-
-```bash
-git clone https://github.com/DIE-SILVASE/DockerMatrixMCU.git
-```
-
----
-
-## 🏗️ Paso 2. Construir el entorno (una sola vez)
-
-1. Abre la carpeta `DockerMatrixMCU/` en VSCode.
-2. Pulsa `Ctrl+Shift+P` (o `⌘+Shift+P` en Mac).
+1. Abre la carpeta `DockerMatrixMCU/` en VSCode.  
+2. Pulsa `Ctrl+Shift+P` (o `⌘+Shift+P` en Mac).  
 3. Escribe y selecciona:  
-   `Tasks: Run Task > Build MatrixMCU Environment`
+   `Tasks: Run Task > Download Images`
 
 ---
 
 ## 🚪 Paso 3. Abrir el entorno
 
-1. Pulsa `Ctrl+Shift+P` (o `⌘+Shift+P`).
+1. Pulsa `Ctrl+Shift+P` (o `⌘+Shift+P`).  
 2. Escribe y selecciona:  
    `Dev Containers: Reopen in Container`
 
----
 
-## ▶️ Paso 4. Iniciar MICROLAB
-
-1. Abre de nuevo la carpeta `DockerMatrixMCU/` desde fuera del contenedor (`Ctrl+K Ctrl+O`).
-2. Pulsa `Ctrl+Shift+P` y ejecuta la siguiente tarea:
-
-   - `Iniciar MICROLAB`
-
->
-> Es probable que, cuando se abra la página, el entorno no esté todavía listo.
-> Refresca la ventana hasta que te aparezca la interfaz de MICROLAB.
->
+## 🎉 ¡Entorno funcionando!
 
 ---
-
-## 🛑 Paso 5. Parar MICROLAB
-
-- `Parar MICROLAB`
-
+---
+---
+---
 ---
 
-## 🐞 Paso 6. Debug con QEMU
+##  🧪 DEMO 1 → Simulación básica en QEMU
 
-1. Abre tu proyecto dentro del contenedor:
-   ```bash
-   cd projects/MI_PROYECTO
-   code .
+
+Dentro del contenedor, selecciona:
+
+- `Clean and Debug (QEMU) → example_blink`
+
+Puedes:
+
+- Poner puntos de parada  
+- Observar los periféricos en XPHERIPHERALS (abajo a la izquierda), por ejemplo el led (GPIOA PIN 5).
+---
+
+## 🧪 DEMO 2 → Uso de la interfaz gráfica MICROLAB
+
+### Paso 1. Iniciar MICROLAB
+
+1. Abre de nuevo la carpeta `DockerMatrixMCU/` desde **fuera del contenedor**.  
+2. Pulsa `Ctrl+Shift+P` y ejecuta la tarea:
+
    ```
-2. Ve a la pestaña "Run and Debug".
-3. Selecciona `Debug MICROLAB (QTest)` y pulsa ▶️.
+   Iniciar MICROLAB
+   ```
 
----
+> Es probable que, al abrirse la página, el entorno aún no esté listo.  
+> **Refresca la ventana** hasta que aparezca la interfaz de MICROLAB.
 
-## 🧪 Paso 7. Uso básico de OpenOCD
+### Paso 2. Volver al contenedor
 
-Si quieres depurar tu código desde la placa, primero necesitarás abrir una sesión de depuración.
+Ejecuta:
 
+- `Clean and Debug MICROLAB (QTest) → example_blink `  
+  - puntos de parada  
+  - observar periféricos (LED GPIO A5)
 
-### Windows
+- `Clean and Debug MICROLAB (QTest) → example_button`
+   -Pulsa el botón de usuario (azul) durante más de un segundo y observa como se enciende y apaga el led
 
-1. Instala [OpenOCD](https://github.com/openocd-org/openocd/releases/tag/v0.12.0)
-2. Añade al PATH: `C:	ools\openocdin`
-3. Instala driver: [ST-LINK](https://www.st.com/en/development-tools/stsw-link009.html)
-4. Conecta tu placa y lanza:
+- `Clean and Debug MICROLAB (QTest) → example_pwm`  
+   -Pulsa el botón de usuario (azul) durante más de un segundo y observa como cambia la intensidad de la luz del led.
 
-```powershell
-openocd -f interface/stlink.cfg -f target/stm32f4x.cfg
+> Puedes seleccionar distintos pines en la placa o los puedes seleccionar desde el buscador.  
+
+### Paso 3. Parar MICROLAB
+
+Desde la ventana de VSCode **fuera del contenedor**, ejecuta:
+
+```
+Parar MICROLAB
 ```
 
-### MacOS
+---
+
+📦 Puedes comprobar en Docker Desktop cómo los contenedores `interfaz-grafica` y `rust-server` han sido detenidos.
+
+---
+
+## 🧪 DEMO 3 → Depuración con placa física (OpenOCD)
+
+### 🔧 Instalación (solo si vas a conectar la placa)
+
+#### Windows
+
+1. Descarga desde:  
+   [https://github.com/openocd-org/openocd/releases/tag/v0.12.0](https://github.com/openocd-org/openocd/releases/tag/v0.12.0)
+2. Archivo:  
+   `openocd-v0.12.0-i686-w64-mingw32.tar.gz`
+3. Extrae el contenido en:  
+   `C:\tools\openocd`
+4. Verifica que `openocd.exe` está en:  
+   `C:\tools\openocd\bin`
+5. Comprueba la instalación:
+```powershell
+'C:\tools\openocd\bin\openocd.exe' --version
+```
+
+🛡️ Si Windows SmartScreen bloquea la ejecución:
+
+- Haz clic en **Más información → Ejecutar de todas formas**
+- O haz clic derecho en el `.exe` → **Propiedades → Desbloquear**
+
+6. Instala el driver [ST-LINK](https://www.st.com/en/development-tools/stsw-link009.html)
+
+#### macOS
 
 ```bash
 brew install open-ocd
-openocd -f interface/stlink.cfg -f target/stm32f4x.cfg
 ```
 
-### Linux
+#### Linux
 
 ```bash
 sudo apt install openocd
-openocd -f interface/stlink.cfg -f target/stm32f4x.cfg
 ```
 
 ---
 
-## 🧠 Paso 8. Conexión desde DevContainer
+### Paso 1. Conectar la placa
+Conecta la placa a tu ordenador.
 
-### Linux
+### Paso 2. Ejecutar OpenOCD
 
-1. Ejecuta la task:
-   `Recargar IP del Host (Linux)`
-2. Elimina y vuelve a abrir el DevContainer.
+Desde **VSCode fuera del contenedor**, ejecuta la task:
 
-### VSCode
+```
+RUN OpenOCD
+```
 
-- En la vista de depuración, selecciona:
-  `Clean and Debug (stm32f446re) (External OpenOCD)`
+### Paso 3. Volver al contenedor
+
+Ejecuta:
+
+- `Clean and Debug (stm32f446re) (Docker) → example_blink `
+  - puntos de parada  
+  - mirar periféricos (SVD)  
+
+>Nota: los logs del código aparecen en la terminal del host
+
+
+- `Clean and Debug (stm32f446re) (Docker) → example_pwm`
+
+### Paso 4. Parar OpenOCD
+
+En la terminal de VSCode fuera del contenedor, pulsa `Ctrl+C` para detener la tarea.
 
 ---
+---
+---
+---
+---
+---
+---
 
-## 🧹 Opcional: cerrar DevContainer
+## 🛑 Finalizar
 
-Pulsa `Ctrl+Shift+P`  
-Selecciona: `Dev Containers: Close Remote Connection`
+Para cerrar el devcontainer:
+
+1. Cierra la ventana del contenedor  
+2. Opcionalmente, desde las tareas:
+
+   - 🧹 `Parar dev-container MatrixMCU`  
+   - 🗑️ `Eliminar dev-container MatrixMCU`
+
+Puedes borrar las imágenes desde Docker Desktop si ya no las necesitas.
 
 ---
+---
+---
+---
+---
+---
+
 
 ## 🧰 Lista de Tasks disponibles
 
 ```txt
-🔧 Build MatrixMCU Environment
+🔧 Download images
 ▶️ Iniciar MICROLAB
 ⏹ Parar MICROLAB
 🧪 Run OPENOCD
-🔁 Recargar IP del Host (Linux)
 🧹 Parar dev-container MatrixMCU
 🗑️ Eliminar dev-container MatrixMCU
 ```
-
----
-
-¡Listo! Ya puedes trabajar con MatrixMCU desde VSCode 🎉
