@@ -103,12 +103,14 @@ check_docker_running
 detect_os_and_uid
 create_network
 
-if $IS_MACOS; then
-    echo "🍏 macOS detectado: se usará imagen preconstruida para evitar build local."
-    pull_remote_image
-else
-    build_image
-fi
+# if $IS_MACOS; then
+#     echo "🍏 macOS detectado: se usará imagen preconstruida para evitar build local."
+#     pull_remote_image
+# else
+#     build_image
+# fi
+
+pull_remote_image
 
 pull_docker_compose_images
 
