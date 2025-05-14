@@ -2,33 +2,7 @@
 	"version": "2.0.0",
 	"tasks": [ 
 		{
-			"label": "Iniciar MICROLAB",
-			"type": "shell",
-			"command": "bash",
-			"args": [
-				"${workspaceFolder}/setup/lab.sh"
-			],
-			"options": {
-				"cwd": "${workspaceFolder}/setup"
-			},
-			"windows": {
-				"command": "powershell",
-				"args": [
-					"-ExecutionPolicy",
-					"Bypass",
-					"-File",
-					"${workspaceFolder}\\setup\\lab.ps1"
-				],
-				"options": {
-					"cwd": "${workspaceFolder}\\setup"
-				},
-			},
-			"group": "build",
-			"problemMatcher": [],
-			"detail": "Inicia el entorno de MICROLAB y abre el navegador"
-		},
-		{
-			"label": "Parar MICROLAB",
+			"label": "Parar contenedores",
 			"type": "shell",
 			"command": "cd ${workspaceFolder}/setup && docker compose down", // Detiene el entorno del laboratorio
 			"windows": {
@@ -45,23 +19,7 @@
 			"detail": "Detiene el entorno de MICROLAB."
 		},
 		{
-			"label": "Parar dev-container MatrixMCU",
-			"type": "shell",
-			"command": "docker stop matrixmcu-dev", // Detiene el contenedor Docker
-			"group": "none",
-			"problemMatcher": [],
-			"detail": "Detiene el contenedor Docker del devcontainer."
-		},
-		{
-			"label": "Eliminar dev-container MatrixMCU",
-			"type": "shell",
-			"command": "docker rm matrixmcu-dev", // Elimina el contenedor Docker
-			"group": "none",
-			"problemMatcher": [],
-			"detail": "Detiene el contenedor Docker del devcontainer."
-		},
-		{
-			"label": "Download Images",
+			"label": "Descargar imagenes",
 			"type": "shell",
 			"command": "bash -c ./build_env.sh",
 			"options": {

@@ -1,6 +1,7 @@
 {
   "name": "MatrixMCU DevContainer",
-  "image": "matrixmcu-env",
+  "dockerComposeFile": "../setup/docker-compose.yml",
+  "service": "matrixmcu-env",
   "runArgs": [
     "--name", "matrixmcu-dev",
     "--network", "host",
@@ -10,6 +11,7 @@
   "remoteUser": "dev",
   "updateRemoteUserUID": true,
   "workspaceFolder": "/MatrixMCU/projects/microlab_ejemplo",
+  "runServices": ["matrixmcu-env", "rust-server", "interfaz-grafica"],
   "customizations": {
     "vscode": {
       "extensions": [

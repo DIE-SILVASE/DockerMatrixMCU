@@ -50,17 +50,17 @@ function check_docker_running() {
 #     echo "👤 UID=${USER_UID}, GID=${USER_GID}"
 # }
 
-function pull_remote_image() {
-    echo "📥 Descargando imagen preconstruida '${IMAGE_REMOTE}' desde Docker Hub..."
-    docker pull "$IMAGE_REMOTE"
-    if [ $? -ne 0 ]; then
-        echo "❌ Error: No se pudo descargar la imagen remota."
-        exit 1
-    fi
+# function pull_remote_image() {
+#     echo "📥 Descargando imagen preconstruida '${IMAGE_REMOTE}' desde Docker Hub..."
+#     docker pull "$IMAGE_REMOTE"
+#     if [ $? -ne 0 ]; then
+#         echo "❌ Error: No se pudo descargar la imagen remota."
+#         exit 1
+#     fi
 
-    echo "🏷️ Etiquetando como '${IMAGE_NAME}'..."
-    docker tag "$IMAGE_REMOTE" "$IMAGE_NAME"
-}
+#     echo "🏷️ Etiquetando como '${IMAGE_NAME}'..."
+#     docker tag "$IMAGE_REMOTE" "$IMAGE_NAME"
+# }
 
 # function build_image() {
 #     echo "🚧 Construyendo imagen Docker '${IMAGE_NAME}'..."
@@ -102,8 +102,9 @@ check_docker_running
 #     build_image
 # fi
 
-pull_remote_image
+#pull_remote_image
 
 pull_docker_compose_images
 
+echo " Imagenes descargadas con exito."
 echo "Ahora abre el contenedor pulsando F1 (o Ctrl+Shift+P) y seleccionando: 'Dev Containers: Reopen in Container'."

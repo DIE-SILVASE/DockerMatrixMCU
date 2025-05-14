@@ -22,6 +22,14 @@ services:
       - WS_URL=0.0.0.0:8081
 
 
+  matrixmcu-env:
+    container_name: matrixmcu-env
+    image: iivvjj/matrixmcu-env:v2
+    environment:
+      - QTEST_PORT= "3000"
+    command: sleep infinity 
+
+
 
 
 
