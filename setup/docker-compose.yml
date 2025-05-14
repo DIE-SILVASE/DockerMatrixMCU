@@ -1,4 +1,3 @@
-#version: '3'
 
 services:
   interfaz-grafica:
@@ -9,8 +8,7 @@ services:
     environment:
       - VITE_APP_API_URL=http://localhost:8080
       - VITE_APP_WS_URL=ws://localhost:8081
-    networks:
-      - lab_virtual_net
+
 
   rust-server:
     container_name: rust-server
@@ -22,11 +20,8 @@ services:
     environment:
       - QEMU_URL=0.0.0.0:3000
       - WS_URL=0.0.0.0:8081
-    networks:
-      - lab_virtual_net
 
-networks:
-  lab_virtual_net:
-    external: true
-    name: lab_virtual_net
-    driver: bridge
+
+
+
+

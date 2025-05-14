@@ -26,37 +26,29 @@ function check_docker_running() {
     fi
 }
 
-function create_network() {
-    if ! docker network inspect lab_virtual_net >/dev/null 2>&1; then
-        echo "🌐 Red 'lab_virtual_net' no encontrada. Creándola..."
-        docker network create lab_virtual_net
-    else
-        echo "🌐 Red 'lab_virtual_net' ya existe."
-    fi
-}
 
-function detect_os_and_uid() {
-    OS_TYPE=$(uname -s)
-    echo "🔎 Detectando sistema operativo..."
-    echo "Sistema detectado: $OS_TYPE"
+# function detect_os_and_uid() {
+#     OS_TYPE=$(uname -s)
+#     echo "🔎 Detectando sistema operativo..."
+#     echo "Sistema detectado: $OS_TYPE"
 
-    if [[ "$OS_TYPE" == "Darwin" ]]; then
-        IS_MACOS=true
-        USER_UID=1000
-        USER_GID=1000
-        HOST_SERVER="host.docker.internal"
-    elif [[ "$OS_TYPE" == "Linux" ]]; then
-        USER_UID=$(id -u)
-        USER_GID=$(id -g)
-        HOST_SERVER="localhost"
-    else
-        echo "⚠️ Sistema no reconocido. Usando UID/GID por defecto (1000)"
-        USER_UID=1000
-        USER_GID=1000
-    fi
+#     if [[ "$OS_TYPE" == "Darwin" ]]; then
+#         IS_MACOS=true
+#         USER_UID=1000
+#         USER_GID=1000
+#         HOST_SERVER="host.docker.internal"
+#     elif [[ "$OS_TYPE" == "Linux" ]]; then
+#         USER_UID=$(id -u)
+#         USER_GID=$(id -g)
+#         HOST_SERVER="localhost"
+#     else
+#         echo "⚠️ Sistema no reconocido. Usando UID/GID por defecto (1000)"
+#         USER_UID=1000
+#         USER_GID=1000
+#     fi
 
-    echo "👤 UID=${USER_UID}, GID=${USER_GID}"
-}
+#     echo "👤 UID=${USER_UID}, GID=${USER_GID}"
+# }
 
 function pull_remote_image() {
     echo "📥 Descargando imagen preconstruida '${IMAGE_REMOTE}' desde Docker Hub..."
@@ -70,21 +62,21 @@ function pull_remote_image() {
     docker tag "$IMAGE_REMOTE" "$IMAGE_NAME"
 }
 
-function build_image() {
-    echo "🚧 Construyendo imagen Docker '${IMAGE_NAME}'..."
-    docker build \
-        --build-arg USERNAME=dev \
-        --build-arg USER_UID=$USER_UID \
-        --build-arg USER_GID=$USER_GID \
-        --build-arg HOST_SERVER=$HOST_SERVER \
-        -t $IMAGE_NAME "$SETUP_DIR"
-    if [ $? -ne 0 ]; then
-        echo "❌ Error: No se pudo construir la imagen Docker '${IMAGE_NAME}'."
-        exit 1
-    else
-        echo "✅ Imagen Docker '${IMAGE_NAME}' creada con éxito"
-    fi
-}
+# function build_image() {
+#     echo "🚧 Construyendo imagen Docker '${IMAGE_NAME}'..."
+#     docker build \
+#         --build-arg USERNAME=dev \
+#         --build-arg USER_UID=$USER_UID \
+#         --build-arg USER_GID=$USER_GID \
+#         --build-arg HOST_SERVER=$HOST_SERVER \
+#         -t $IMAGE_NAME "$SETUP_DIR"
+#     if [ $? -ne 0 ]; then
+#         echo "❌ Error: No se pudo construir la imagen Docker '${IMAGE_NAME}'."
+#         exit 1
+#     else
+#         echo "✅ Imagen Docker '${IMAGE_NAME}' creada con éxito"
+#     fi
+# }
 
 function pull_docker_compose_images() {
     if [ -f "$SETUP_DIR/docker-compose.yml" ]; then
@@ -100,8 +92,8 @@ echo "🚀 Iniciando construcción de entorno MatrixMCU..."
 
 check_docker_installed
 check_docker_running
-detect_os_and_uid
-create_network
+# detect_os_and_uid
+
 
 # if $IS_MACOS; then
 #     echo "🍏 macOS detectado: se usará imagen preconstruida para evitar build local."
@@ -114,4 +106,4 @@ pull_remote_image
 
 pull_docker_compose_images
 
-echo "Ahora abre la carpeta 'alumno/' en VSCode y selecciona 'Reopen in Container'."
+echo "Ahora abre el contenedor pulsando F1 (o Ctrl+Shift+P) y seleccionando: 'Dev Containers: Reopen in Container'."

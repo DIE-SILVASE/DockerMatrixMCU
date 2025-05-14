@@ -38,15 +38,6 @@ function Detect-OSAndUID {
     Write-Host "UID=$USER_UID, GID=$USER_GID"
 }
 
-function Create-Network {
-    try {
-        docker network inspect lab_virtual_net | Out-Null
-        Write-Host "Red 'lab_virtual_net' ya existe."
-    } catch {
-        Write-Host "Red 'lab_virtual_net' no encontrada. Creandola..."
-        docker network create lab_virtual_net
-    }
-}
 
 function Build-Image {
     Write-Host "Construyendo imagen Docker '$IMAGE_NAME'..."
@@ -112,10 +103,11 @@ Write-Host "Iniciando construccion de entorno MatrixMCU..."
 Check-DockerInstalled
 Check-DockerRunning
 Detect-OSAndUID
-Create-Network
 #Build-Image
 Pull-Image
+Write-Host "Imagen '$IMAGE_NAME' creada con exito." -ForegroundColor Green
+
 Get-DockerComposeImages
 
-Write-Host "Imagen '$IMAGE_NAME' creada con exito." -ForegroundColor Green
-Write-Host "Ahora abre la carpeta `alumno/` en VSCode y selecciona `Reopen in Container`." -ForegroundColor Yellow
+Write-Host "Imagenes de microlab creadas con exito." -ForegroundColor Green
+Write-Host "Ahora abre el contenedor pulsando F1 (o Ctrl+Shift+P) y seleccionando: 'Dev Containers: Reopen in Container'." -ForegroundColor Yellow
