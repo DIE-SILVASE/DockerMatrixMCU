@@ -2,24 +2,7 @@
 	"version": "2.0.0",
 	"tasks": [ 
 		{
-			"label": "Parar contenedores",
-			"type": "shell",
-			"command": "cd ${workspaceFolder}/setup && docker compose down", // Detiene el entorno del laboratorio
-			"windows": {
-				"command": "powershell",
-				"args": [
-					"-ExecutionPolicy",
-					"Bypass",
-					"-Command",
-					"cd ${workspaceFolder}/setup; docker compose down"
-				]
-			},
-			"group": "build",
-			"problemMatcher": [],
-			"detail": "Detiene el entorno de MICROLAB."
-		},
-		{
-			"label": "Descargar imagenes",
+			"label": "Descargar imágenes",
 			"type": "shell",
 			"command": "bash -c ./build_env.sh",
 			"options": {
@@ -51,7 +34,24 @@
 			"detail": "🚧 SOLO NECESARIO LA PRIMERA VEZ. Descarga las imágenes necesarias del laboratorio."
 		},
 		{
-			"label": "Run OpenOCD", //Si no funciona preuba a lanzarlo mientras pulsas el boton de reset del nucleo
+			"label": "Parar contenedores",
+			"type": "shell",
+			"command": "cd ${workspaceFolder}/setup && docker compose down", // Detiene el entorno del laboratorio
+			"windows": {
+				"command": "powershell",
+				"args": [
+					"-ExecutionPolicy",
+					"Bypass",
+					"-Command",
+					"cd ${workspaceFolder}/setup; docker compose down"
+				]
+			},
+			"group": "build",
+			"problemMatcher": [],
+			"detail": "Detiene el entorno de MICROLAB."
+		},
+		{
+			"label": "Ejecutar OpenOCD", //Si no funciona prueba a lanzarlo mientras pulsas el boton de reset del nucleo
 			"type": "shell",
 			"command": "openocd", // Asegúrate de que openocd está en el PATH
 			"windows":{
@@ -65,15 +65,7 @@
 			  "cwd": "${workspaceFolder}"
 			},
 			"isBackground": true,
-			// "problemMatcher": {
-			//   "owner": "cortex-debug",
-			//   "pattern": [{ "regexp": ".+" }],
-			//   "background": {
-			// 	"activeOnStart": true,
-			// 	"beginsPattern": "Info : Listening on port 6666",
-			// 	"endsPattern": "Info : Listening on port 3333"
-			//   }
-			// },
+			"problemMatcher": [],
 			"presentation": {
 			  "reveal": "always",
 			  "panel": "dedicated",
