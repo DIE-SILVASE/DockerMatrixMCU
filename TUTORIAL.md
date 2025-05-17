@@ -16,6 +16,8 @@ Instala lo siguiente antes de empezar:
 
 MICROLAB necesita que mantengas la app Docker Desktop abierta.
 De lo contrario, no podrá ejecutar los diferentes contenedores Docker necesarios para que todo funcione.
+- Asegurate de que Docker Daemon está corriendo
+Para ello, abre docker Desktop y abajo a la izquierda deberías ver: engine running
 
 ---
 
@@ -80,7 +82,8 @@ Puedes:
 
 ### Paso 1. Iniciar MICROLAB
 
-1. Abre tu navegador Web favorito y escribe la siguiente URL: `localhost:5173`.
+1. Abre tu navegador Web favorito y escribe la siguiente URL: `localhost:5173` o pincha aquí: [MICROLAB](http://localhost:5173)
+
 2. Deberías ser capaz de ver la interfaz gráfica de MICROLAB.
 
 #### ⚠️ IMPORTANTE: Asegúrate de poner tu navegador en modo *light*
@@ -111,84 +114,7 @@ Si quieres asegurarte, abre la aplicación Docker Desktop y ve a la pestaña *Co
 Verás un servicio *setup* compuesto por tres contenedores (`rust-server`, `matrixmcu-env`, e `interfaz-grafica`).
 Como indica la bolita gris, todos los contenedores están apagados.
 
----
 
-## 🧪 DEMO 3 → Depuración con placa física (OpenOCD)
-
-### 🔧 Instalación (solo si vas a conectar la placa)
-
-#### Windows
-
-1. Descarga desde:  
-   [https://github.com/openocd-org/openocd/releases/tag/v0.12.0](https://github.com/openocd-org/openocd/releases/tag/v0.12.0)
-2. Archivo:  
-   `openocd-v0.12.0-i686-w64-mingw32.tar.gz`
-3. Extrae el contenido en:  
-   `C:\tools\openocd`
-4. Verifica que `openocd.exe` está en:  
-   `C:\tools\openocd\bin`
-5. Comprueba la instalación:
-```powershell
-'C:\tools\openocd\bin\openocd.exe' --version
-```
-
-🛡️ Si Windows SmartScreen bloquea la ejecución:
-
-- Haz clic en **Más información → Ejecutar de todas formas**
-- O haz clic derecho en el `.exe` → **Propiedades → Desbloquear**
-
-6. Instala el driver [ST-LINK](https://www.st.com/en/development-tools/stsw-link009.html)
-
-#### MacOS
-
-Es necesario instalar [Homebrew](https://brew.sh).
-Una vez lo tengas instalado, abre un terminal e introduce el siguiente comando:
-
-```bash
-brew install open-ocd
-```
-
-#### Linux
-
-Abre un terminal e introduce los siguientes comandos:
-
-```bash
-sudo apt update && install openocd
-```
-```bash
-sudo apt install openocd
-```
-
----
-
-### Paso 1. Conectar la placa
-
-Conecta la placa a tu ordenador.
-
-### Paso 2. Ejecutar OpenOCD
-
-Desde **VSCode fuera del contenedor**, ejecuta la task:
-
-```
-RUN OpenOCD
-```
-
-### Paso 3. Volver al contenedor
-
-Ejecuta:
-
-- `Clean and Debug (stm32f446re) (Docker) → example_blink `
-  - puntos de parada  
-  - mirar periféricos (SVD)  
-
->Nota: los logs del código aparecen en la terminal del host
-
-
-- `Clean and Debug (stm32f446re) (Docker) → example_pwm`
-
-### Paso 4. Parar OpenOCD
-
-En la terminal de VSCode fuera del contenedor, pulsa `Ctrl+C` para detener la tarea.
 
 ---
 ---
@@ -198,16 +124,56 @@ En la terminal de VSCode fuera del contenedor, pulsa `Ctrl+C` para detener la ta
 ---
 ---
 
-## 🛑 Finalizar
 
-Para cerrar el devcontainer:
 
-1. Cierra la ventana del contenedor  
-2. Opcionalmente, desde la tarea:
+## 🧯 Parar los contenedores
 
-   - 🧹 `Parar contenedores`  
+Para cerrar el devcontainer cierra la ventana del contenedor y tienes las siguientes opciones:
 
-Puedes borrar las imágenes desde Docker Desktop si ya no las necesitas.
+
+#### Desde **Visual Studio Code**
+
+puedes detener los contenedores manualmente desde una tarea:
+
+1. Abre de nuevo la carpeta DockerMatrixMCU en Vscode (Pero asegurate de que sea en local, no el contenedor!!!)
+2. Pulsa `Ctrl+Shift+P` (o `⌘+Shift+P` en Mac).
+3. Escribe y selecciona:  
+   `Tasks: Run Task`
+4. Elige la tarea:  
+   `Parar contenedores`
+
+#### Desde **Docker Desktop**
+
+1. Abre **Docker Desktop**.
+2. Ve a la pestaña **"Containers"** (Contenedores) en el panel lateral izquierdo.
+3. Localiza los contenedores en ejecución asociados al entorno (por ejemplo, `setup`, `interfaz-grafica`, `rust-server`).
+4. Pulsa el botón **"Stop" (■)** a la derecha de cada contenedor para detenerlo.
+
+
+
+
+## 🛑 Finalizar: Eliminar contenedores e imágenes (opcional)
+
+Puedes borrar los contenedres e imágenes desde Docker Desktop si ya no las necesitas:
+
+#### Contenedores
+
+1. Abre **Docker Desktop**.
+2. En la pestaña **"Containers"**, localiza los contenedores que desees eliminar.
+3. Haz clic en el icono de la **papelera 🗑️** al lado del contenedor.
+4. Confirma la eliminación.
+
+#### Imágenes
+
+1. Abre **Docker Desktop**.
+2. Ve a la pestaña **"Images"** (Imágenes) en el panel lateral izquierdo.
+3. Busca las imágenes que quieras eliminar:
+   - `iivvjj/interfaz-grafica`
+   - `iivvjj/rust-server`
+   - `iivvjj/matrixmcu-env`
+4. Haz clic en la **papelera 🗑️** a la derecha de cada imagen.
+5. Confirma que deseas eliminarlas.
+
 
 ---
 ---

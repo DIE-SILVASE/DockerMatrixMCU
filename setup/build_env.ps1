@@ -12,7 +12,7 @@ $HOST_SERVER = "host.docker.internal"
 # --- Funciones ---
 function Check-DockerInstalled {
     if (-not (Get-Command docker -ErrorAction SilentlyContinue)) {
-        Write-Host "ERROR: Docker no está instalado. Por favor instala Docker primero." -ForegroundColor Red
+        Write-Host "ERROR: Docker no esta instalado. Por favor instala Docker primero." -ForegroundColor Red
         exit 1
     }
 }
@@ -21,7 +21,7 @@ function Check-DockerRunning {
     try {
         docker info | Out-Null
     } catch {
-        Write-Host "ERROR: Docker daemon no esta corriendo. Asegurate de que Docker esté iniciado." -ForegroundColor Red
+        Write-Host "ERROR: Docker daemon no esta corriendo. Asegurate de que Docker este iniciado." -ForegroundColor Red
         exit 1
     }
 }

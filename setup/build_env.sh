@@ -14,14 +14,14 @@ IS_MACOS=false
 # --- Funciones ---
 function check_docker_installed() {
     if ! command -v docker &> /dev/null; then
-        echo "❌ Docker no está instalado. Por favor instala Docker primero."
+        echo " Docker no está instalado. Por favor instala Docker primero."
         exit 1
     fi
 }
 
 function check_docker_running() {
     if ! docker info &> /dev/null; then
-        echo "❌ Docker daemon no está corriendo. Asegúrate de que Docker esté iniciado."
+        echo " Docker daemon no está corriendo. Asegúrate de que Docker esté iniciado."
         exit 1
     fi
 }
@@ -80,15 +80,15 @@ function check_docker_running() {
 
 function pull_docker_compose_images() {
     if [ -f "$SETUP_DIR/docker-compose.yml" ]; then
-        echo "📥 Descargando imágenes definidas en 'docker-compose.yml'..."
+        echo "Descargando imágenes definidas en 'docker-compose.yml'..."
         docker compose -f "$SETUP_DIR/docker-compose.yml" pull
     else
-        echo "⚠️ Archivo 'docker-compose.yml' no encontrado en '$SETUP_DIR'."
+        echo " Archivo 'docker-compose.yml' no encontrado en '$SETUP_DIR'."
     fi
 }
 
 # --- Ejecución principal ---
-echo "🚀 Iniciando construcción de entorno MatrixMCU..."
+echo "Iniciando construcción de entorno MatrixMCU..."
 
 check_docker_installed
 check_docker_running
