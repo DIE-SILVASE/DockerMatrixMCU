@@ -86,9 +86,6 @@ Puedes:
 
 2. Deberías ser capaz de ver la interfaz gráfica de MICROLAB.
 
-#### ⚠️ IMPORTANTE: Asegúrate de poner tu navegador en modo *light*
-
-MICROLAB todavía no está optimizado para funcionar en modo *Dark* (ya sabes: fondo negro y letras blancas). Por favor, asegúrate que tu navegador funciona en modo *light* mientras trabajas con MICROLAB.
 
 ### Paso 2. Volver al contenedor
 

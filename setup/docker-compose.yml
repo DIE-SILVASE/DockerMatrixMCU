@@ -2,7 +2,7 @@
 services:
   interfaz-grafica:
     container_name: interfaz-grafica
-    image: iivvjj/interfaz-grafica:v3
+    image: iivvjj/interfaz-grafica:v4
     ports:
       - "5173:5173"
     environment:
