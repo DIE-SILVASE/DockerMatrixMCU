@@ -14,14 +14,14 @@ IS_MACOS=false
 # --- Funciones ---
 function check_docker_installed() {
     if ! command -v docker &> /dev/null; then
-        echo "❌ Docker no está instalado. Por favor instala Docker primero."
+        echo " Docker no está instalado. Por favor instala Docker primero."
         exit 1
     fi
 }
 
 function check_docker_running() {
     if ! docker info &> /dev/null; then
-        echo "❌ Docker daemon no está corriendo. Asegúrate de que Docker esté iniciado."
+        echo " Docker daemon no está corriendo. Asegúrate de que Docker esté iniciado."
         exit 1
     fi
 }
@@ -50,17 +50,17 @@ function check_docker_running() {
 #     echo "👤 UID=${USER_UID}, GID=${USER_GID}"
 # }
 
-function pull_remote_image() {
-    echo "📥 Descargando imagen preconstruida '${IMAGE_REMOTE}' desde Docker Hub..."
-    docker pull "$IMAGE_REMOTE"
-    if [ $? -ne 0 ]; then
-        echo "❌ Error: No se pudo descargar la imagen remota."
-        exit 1
-    fi
+# function pull_remote_image() {
+#     echo "📥 Descargando imagen preconstruida '${IMAGE_REMOTE}' desde Docker Hub..."
+#     docker pull "$IMAGE_REMOTE"
+#     if [ $? -ne 0 ]; then
+#         echo "❌ Error: No se pudo descargar la imagen remota."
+#         exit 1
+#     fi
 
-    echo "🏷️ Etiquetando como '${IMAGE_NAME}'..."
-    docker tag "$IMAGE_REMOTE" "$IMAGE_NAME"
-}
+#     echo "🏷️ Etiquetando como '${IMAGE_NAME}'..."
+#     docker tag "$IMAGE_REMOTE" "$IMAGE_NAME"
+# }
 
 # function build_image() {
 #     echo "🚧 Construyendo imagen Docker '${IMAGE_NAME}'..."
@@ -80,15 +80,15 @@ function pull_remote_image() {
 
 function pull_docker_compose_images() {
     if [ -f "$SETUP_DIR/docker-compose.yml" ]; then
-        echo "📥 Descargando imágenes definidas en 'docker-compose.yml'..."
+        echo "Descargando imágenes definidas en 'docker-compose.yml'..."
         docker compose -f "$SETUP_DIR/docker-compose.yml" pull
     else
-        echo "⚠️ Archivo 'docker-compose.yml' no encontrado en '$SETUP_DIR'."
+        echo " Archivo 'docker-compose.yml' no encontrado en '$SETUP_DIR'."
     fi
 }
 
 # --- Ejecución principal ---
-echo "🚀 Iniciando construcción de entorno MatrixMCU..."
+echo "Iniciando construcción de entorno MatrixMCU..."
 
 check_docker_installed
 check_docker_running
@@ -102,8 +102,9 @@ check_docker_running
 #     build_image
 # fi
 
-pull_remote_image
+#pull_remote_image
 
 pull_docker_compose_images
 
+echo " Imagenes descargadas con exito."
 echo "Ahora abre el contenedor pulsando F1 (o Ctrl+Shift+P) y seleccionando: 'Dev Containers: Reopen in Container'."

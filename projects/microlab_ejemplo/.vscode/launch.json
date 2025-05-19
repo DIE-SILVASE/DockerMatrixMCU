@@ -86,7 +86,7 @@
       "svdFile": "${env:MATRIXMCU}/svd/STM32F405.svd"
     },
     {
-      "name": "Debug (stm32f446re) (Docker)",
+      "name": "Debug (stm32f446re)",
       "type": "cortex-debug",
       "request": "launch",
       "cwd": "${workspaceRoot}",
@@ -106,7 +106,7 @@
       "svdFile": "${env:MATRIXMCU}/svd/STM32F446.svd",                
     },
     {
-      "name": "Clean and Debug (stm32f446re) (Docker)",
+      "name": "Clean and Debug (stm32f446re)",
       "type": "cortex-debug",
       "request": "launch",
       "cwd": "${workspaceRoot}",
